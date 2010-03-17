@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.0    not yet released
+== rufus-doric - 0.1.0    released 2010/03/17
 
 - initial release
 
