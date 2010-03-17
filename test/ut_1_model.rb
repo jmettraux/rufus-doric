@@ -120,5 +120,14 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_equal 0, Thing.all.size
   end
+
+  def test_putting_in_missing_db
+
+    Rufus::Doric::Couch.db('doric').delete('.')
+
+    assert_raise Rufus::Doric::SaveFailed do
+      Thing.new('name' => 'flamenco').save!
+    end
+  end
 end
 
