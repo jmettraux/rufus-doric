@@ -43,12 +43,6 @@ module Doric
       @doc_id
     end
 
-    def self.db (dbname=nil)
-
-      @db = dbname.to_s if dbname
-      @db
-    end
-
     include WithH
     include WithDb
 
