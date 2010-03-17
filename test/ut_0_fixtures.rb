@@ -15,19 +15,18 @@ class UtFixturesTest < Test::Unit::TestCase
   #def setup
   #end
   def teardown
-    Rufus::Jig::Couch.new('http://127.0.0.1:5984').delete('doric_test')
-    Rufus::Jig::Couch.new('http://127.0.0.1:5984').delete('doric_nada')
+    Rufus::Doric::Couch.db('doric').delete('.')
+    Rufus::Doric::Couch.db('doric', 'nada').delete('.')
   end
 
   def test_load
 
     Rufus::Doric::Fixtures.load(
-      'http://127.0.0.1:5984', 'test/fixtures/test',
+      Rufus::Doric::Couch.url, 'test/fixtures/test',
       :purge => true,
       :verbose => false)
 
-    img = Rufus::Jig::Couch.new(
-      'http://127.0.0.1:5984/doric_test').get('users/john.jpg')
+    img = Rufus::Doric::Couch.db('doric').get('users/john.jpg')
 
     assert_not_nil img
   end
@@ -35,13 +34,12 @@ class UtFixturesTest < Test::Unit::TestCase
   def test_env_option
 
     Rufus::Doric::Fixtures.load(
-      'http://127.0.0.1:5984', 'test/fixtures/test',
+      Rufus::Doric::Couch.url, 'test/fixtures/test',
       :env => 'nada',
       :purge => true,
       :verbose => false)
 
-    img = Rufus::Jig::Couch.new(
-      'http://127.0.0.1:5984/doric_nada').get('users/john.jpg')
+    img = Rufus::Doric::Couch.db('doric', 'nada').get('users/john.jpg')
 
     assert_not_nil img
   end

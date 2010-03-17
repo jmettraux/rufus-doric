@@ -15,13 +15,18 @@ a bit of rails3, rufus-jig and CouchDB
   }
   s.email = %q{jmettraux@gmail.com}
   s.extra_rdoc_files = [
-    "README.txt"
+    "LICENSE.txt",
+     "README.rdoc"
   ]
   s.files = [
-    "README.txt",
+    "LICENSE.txt",
+     "README.rdoc",
      "Rakefile",
      "TODO.txt",
+     "lib/rufus/doric.rb",
+     "lib/rufus/doric/couch.rb",
      "lib/rufus/doric/fixtures.rb",
+     "rufus-doric.gemspec",
      "test/base.rb",
      "test/fixtures/test/doric/69247b__picture.jpg",
      "test/fixtures/test/doric/69249__picture.jpg",
@@ -30,6 +35,7 @@ a bit of rails3, rufus-jig and CouchDB
      "test/fixtures/test/doric/users.json",
      "test/fixtures/test/doric/users__jami.png",
      "test/fixtures/test/doric/users__john.jpg",
+     "test/test.rb",
      "test/ut_0_fixtures.rb"
   ]
   s.homepage = %q{http://github.com/jmettraux/rufus-doric/}

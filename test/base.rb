@@ -10,3 +10,7 @@ require 'patron'
 
 require 'rufus/jig'
 
+ENV['RAILS_ENV'] = 'test'
+require 'active_support'
+require 'rufus/doric'
+
