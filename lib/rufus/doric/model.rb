@@ -250,7 +250,7 @@ module Doric
         # insert design doc
 
         put_design_doc
-        return get_all
+        return get_all(opts)
       end
 
       result['rows'].collect { |r| r['doc'] }
@@ -269,7 +269,7 @@ module Doric
 
       unless result
         put_design_doc(key)
-        return by(key, val)
+        return by(key, val, opts)
       end
 
       result['rows'].collect { |r| r['doc'] }
