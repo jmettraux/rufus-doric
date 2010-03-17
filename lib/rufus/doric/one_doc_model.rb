@@ -79,8 +79,9 @@ module Doric
       db.put(doc)
     end
 
-    #
+    #--
     # class methods
+    #++
 
     def self.create! (h)
 

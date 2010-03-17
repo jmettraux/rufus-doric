@@ -88,5 +88,19 @@ class UtModelTest < Test::Unit::TestCase
       Item.new('name' => 'pasokon').save!
     end
   end
+
+  def test_delete
+
+    Thing.new('name' => 'song_celine').save!
+
+    assert_equal 1, Thing.all.size
+
+    t = Thing.all.first
+
+    t.delete
+
+    assert_equal 0, Thing.all.size
+    assert_equal true, t.destroyed?
+  end
 end
 

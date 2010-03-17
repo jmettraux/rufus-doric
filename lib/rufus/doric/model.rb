@@ -22,7 +22,7 @@
 # Made in Japan.
 #++
 
-require 'cgi'
+#require 'cgi'
 
 
 module Rufus
@@ -81,8 +81,9 @@ module Doric
     include WithH
     include WithDb
 
-    #
+    #--
     # constructor and instance methods
+    #++
 
     attr_reader :h
 
@@ -139,8 +140,9 @@ module Doric
       raise(SaveFailed.new(self.class.doric_type, _id)) unless r.nil?
     end
 
-    #
+    #--
     # methods required by ActiveModel (see test/unit/lint_mdmodel_test.rb
+    #++
 
     def to_model
 
@@ -164,8 +166,20 @@ module Doric
       @h['_id']
     end
 
-    #
+    def delete
+
+      @h['_destroyed'] = true
+      db.delete(@h)
+    end
+
+    def destroy
+
+      delete
+    end
+
+    #--
     # class methods
+    #++
 
     def self.destroy_all
 
@@ -263,8 +277,9 @@ module Doric
 
       # TODO : limit, skip (opts)
 
-      v = Rufus::Json.encode(val)
-      v = CGI.escape(v)
+      #v = Rufus::Json.encode(val)
+      #v = CGI.escape(v)
+      v = "%22#{val}%22"
 
       path = "#{design_path}/_view/by_#{key}?key=#{v}&include_docs=true"
 
