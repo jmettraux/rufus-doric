@@ -197,7 +197,7 @@ module Doric
 
       doc = db.get(_id)
 
-      raise Doric::Couch::NotFound.new(@doric_type, _id) unless doc
+      raise Rufus::Doric::NotFound.new(@doric_type, _id) unless doc
 
       self.new(doc)
     end

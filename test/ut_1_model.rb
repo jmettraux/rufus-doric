@@ -102,5 +102,12 @@ class UtModelTest < Test::Unit::TestCase
     assert_equal 0, Thing.all.size
     assert_equal true, t.destroyed?
   end
+
+  def test_not_found
+
+    assert_raise Rufus::Doric::NotFound do
+      Thing.find('nada')
+    end
+  end
 end
 
