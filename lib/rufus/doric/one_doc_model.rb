@@ -76,7 +76,7 @@ module Doric
       doc = self.class.do_get(self.class.doc_id)
       doc[self.class.doc_id][@h['_id']] = @h
 
-      Doric::Couch.put(doc)
+      db.put(doc)
     end
 
     #
@@ -97,7 +97,7 @@ module Doric
     def self.destroy_all
 
       doc = Doric::Couch.get(@doc_id)
-      Doric::Couch.delete(doc) if doc
+      db.delete(doc) if doc
     end
 
     def self.find (_id)
@@ -112,7 +112,7 @@ module Doric
 
     def self.do_get (doc_id)
 
-      Doric::Couch.get(doc_id) ||  { '_id' => doc_id, doc_id => {} }
+      db.get(doc_id) ||  { '_id' => doc_id, doc_id => {} }
     end
   end
 end

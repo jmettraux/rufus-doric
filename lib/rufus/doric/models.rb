@@ -23,6 +23,7 @@
 #++
 
 require 'active_model'
+require 'active_record'
 
 # there are more 'require' at the end of this file
 

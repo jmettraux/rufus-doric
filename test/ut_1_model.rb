@@ -11,10 +11,25 @@ require 'rufus/doric'
 
 
 class Thing < Rufus::Doric::Model
+
   db :doric
+
   doric_type :things
   _id_field :name
   h_accessor :name
+end
+
+class Item < Rufus::Doric::Model
+
+  db :doric
+
+  doric_type :items
+
+  _id_field :name
+  h_accessor :name
+  h_accessor :supplier
+
+  validates :supplier, :presence => true
 end
 
 
@@ -65,6 +80,13 @@ class UtModelTest < Test::Unit::TestCase
     assert_nil c._id
     assert_nil c._rev
     assert_equal Thing, c.class
+  end
+
+  def test_validation
+
+    assert_raise ActiveRecord::RecordInvalid do
+      Item.new('name' => 'pasokon').save!
+    end
   end
 end
 

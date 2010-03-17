@@ -1,4 +1,7 @@
 
+[o] one_doc_model : validation
+[o] model : validation
+
 [ ] destroy/delete
-[ ] lsof check
+[ ] lsof check (jig / patron)
 
