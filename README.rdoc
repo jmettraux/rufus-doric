@@ -17,16 +17,15 @@ see tests
 
 Given a fixture tree
 
-  test/
-  `-- fixtures
-      `-- test
-          `-- doric
-              |-- 69247b__picture.jpg
-              |-- 69249__picture.jpg
-              |-- product0.json
-              |-- product1.json
-              |-- users.json
-              |-- users__jami.png
+  fixtures
+  `-- test
+      `-- doric
+          |-- 69247b__picture.jpg
+          |-- 69249__picture.jpg
+          |-- product0.json
+          |-- product1.json
+          |-- users.json
+          |-- users__jami.png
               `-- users__john.jpg
 
 this
