@@ -30,29 +30,6 @@ require 'active_model'
 module Rufus
 module Doric
 
-  DESIGN_DOC = {
-    '_id' => '_design/doric',
-    'views' => {
-      'by_doric_type' => {
-        'map' => %{
-          function(doc) {
-            if (doc.doric_type) emit(doc.doric_type, null);
-          }
-        }
-      }
-    }
-  }
-
-  # Prepares the Couch database (by inserting design docs)
-  #
-  def self.prepare
-
-    dd = get('_design/doric')
-    delete(dd) if dd
-
-    put(DESIGN_DOC)
-  end
-
   def self.neutralize_id (s)
 
     s.to_s.strip.gsub(/[\s\/:;\*\\\+\?]/, '_')
@@ -86,6 +63,31 @@ module Doric
           end
         end
       end
+    end
+  end
+
+  #
+  # The .db 'xyz' and #db methods
+  #
+  module WithDb
+
+    def self.included (target)
+
+      def target.db (dbname=nil, opts=nil)
+
+        if dbname
+          @db = dbname.to_s
+          @db_opts = opts || {}
+          return @db
+        end
+
+        Rufus::Doric::Couch.db(@db, @db_opts)
+      end
+    end
+
+    def db
+
+      self.class.db
     end
   end
 

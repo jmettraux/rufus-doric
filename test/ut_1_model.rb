@@ -11,7 +11,7 @@ require 'rufus/doric'
 
 
 class Thing < Rufus::Doric::Model
-  db 'doric'
+  db :doric
   doric_type :things
   _id_field :name
   h_accessor :name
@@ -21,7 +21,8 @@ end
 class UtModelTest < Test::Unit::TestCase
 
   def setup
-    ::Thing.destroy_all
+    Rufus::Doric::Couch.db('doric').delete('.')
+    Rufus::Doric::Couch.db('doric').put('.')
   end
   #def teardown
   #end

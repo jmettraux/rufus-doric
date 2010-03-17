@@ -50,6 +50,7 @@ module Doric
     end
 
     include WithH
+    include WithDb
 
     #
     # constructor and instance methods

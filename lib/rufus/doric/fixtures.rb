@@ -55,6 +55,7 @@ module Doric
     # will load the documents (and their attachements)
     # into http://127.0.0.1:5984/doric_test
     #
+    #
     # == options
     #
     # === :env
@@ -73,6 +74,10 @@ module Doric
     # === :overwrite
     #
     # when true, if a doc is already present, will overwrite it
+    #
+    # === :db
+    #
+    # takes a String. Sets the name of the Couch database absolutely
     #
     # === :verbose
     #
@@ -117,6 +122,11 @@ module Doric
         dbname = File.split(dbpath).last
 
         db_uri = "#{couch_uri}/#{dbname}_#{env}"
+
+        if dbn = opts[:db]
+          db_uri = "#{couch_uri}/#{dbn}"
+        end
+
         db = Rufus::Jig::Couch.new(db_uri)
 
         if db.get('.').nil?

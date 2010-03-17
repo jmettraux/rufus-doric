@@ -48,12 +48,15 @@ module Doric
       Rufus::Jig::Couch.new(url)
     end
 
-    def self.db (name, env=nil)
+    def self.db (name, opts={})
 
+      env = opts[:env]
       env ||= Rails.env if defined?(Rails)
       env ||= 'test'
 
-      Rufus::Jig::Couch.new("#{url}/#{name}_#{env}")
+      u = opts[:absolute] ? "#{url}/#{name}" : "#{url}/#{name}_#{env}"
+
+      Rufus::Jig::Couch.new(u)
     end
 
 #    def self.purge! TODO (name, env)

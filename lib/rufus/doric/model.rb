@@ -26,6 +26,19 @@
 module Rufus
 module Doric
 
+  DORIC_DESIGN_DOC = {
+    '_id' => '_design/doric',
+    'views' => {
+      'by_doric_type' => {
+        'map' => %{
+          function(doc) {
+            if (doc.doric_type) emit(doc.doric_type, null);
+          }
+        }
+      }
+    }
+  }
+
   #
   # Classes extending that class have 1 Couch document per instance
   #
@@ -51,13 +64,8 @@ module Doric
       @_id_field
     end
 
-    def self.db (dbname=nil)
-
-      @db = dbname.to_s if dbname
-      @db
-    end
-
     include WithH
+    include WithDb
 
     #
     # constructor and instance methods
@@ -107,12 +115,12 @@ module Doric
           self.instance_eval &self.class._id_field
         end
 
-        @h['_id'] = Doric::Couch.neutralize_id(i)
+        @h['_id'] = Rufus::Doric.neutralize_id(i)
       end
 
       raise ActiveRecord::RecordInvalid.new(self) if @h['_id'].nil?
 
-      r = Doric::Couch.put(@h)
+      r = db.put(@h)
 
       raise(SaveFailed.new(self.class.doric_type, _id)) unless r.nil?
     end
@@ -121,6 +129,7 @@ module Doric
     # methods required by ActiveModel (see test/unit/lint_mdmodel_test.rb
 
     def to_model
+
       self
     end
 
@@ -146,7 +155,7 @@ module Doric
 
     def self.destroy_all
 
-      get_all.each { |d| Doric::Couch.delete(d) }
+      get_all.each { |d| db.delete(d) }
     end
 
     def self.all
@@ -156,7 +165,7 @@ module Doric
 
     def self.find (_id)
 
-      doc = Doric::Couch.get(_id)
+      doc = db.get(_id)
 
       raise Doric::Couch::NotFound.new(@doric_type, _id) unless doc
 
@@ -173,7 +182,17 @@ module Doric
 
       # TODO : limit, skip
 
-      Doric::Couch.get(path)['rows'].collect { |r| r['doc'] }
+      result = db.get(path)
+
+      unless result
+
+        # insert design doc
+
+        db.put(DORIC_DESIGN_DOC)
+        return get_all
+      end
+
+      result['rows'].collect { |r| r['doc'] }
     end
   end
 end
