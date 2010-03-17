@@ -23,10 +23,10 @@ Jeweler::Tasks.new do |gem|
 
   gem.version = Rufus::Doric::VERSION
   gem.name = 'rufus-doric'
-  gem.summary = 'a bit of rails3, rufus-jig and CouchDB'
+  gem.summary = 'something at the intersection of Rails3, CouchDB and rufus-jig'
 
   gem.description = %{
-a bit of rails3, rufus-jig and CouchDB
+something at the intersection of Rails3, CouchDB and rufus-jig
   }
   gem.email = 'jmettraux@gmail.com'
   gem.homepage = 'http://github.com/jmettraux/rufus-doric/'
@@ -36,7 +36,7 @@ a bit of rails3, rufus-jig and CouchDB
   gem.test_file = 'test/test.rb'
 
   gem.add_dependency 'activerecord', '~> 3.0.0.beta'
-  gem.add_dependency 'rufus-jig', '>= 0.1.15'
+  gem.add_dependency 'rufus-jig', '>= 0.1.16'
   gem.add_dependency 'mime-types', '>= 1.16'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'yard'
