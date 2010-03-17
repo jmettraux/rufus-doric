@@ -1,0 +1,8 @@
+
+= rufus-doric CHANGELOG.txt
+
+
+== rufus-doric - 0.1.0    not yet released
+
+- initial release
+

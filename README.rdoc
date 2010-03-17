@@ -6,6 +6,12 @@ something at the intersection of Rails3, CouchDB and rufus-jig.
 
 == Rufus::Doric::Model usage
 
+see tests
+
+== Rufus::Doric::OneDocModel usage
+
+see tests
+
 
 == 'fixtures' usage
 

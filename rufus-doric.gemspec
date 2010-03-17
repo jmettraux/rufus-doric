@@ -19,13 +19,19 @@ a bit of rails3, rufus-jig and CouchDB
      "README.rdoc"
   ]
   s.files = [
-    "LICENSE.txt",
+    "CHANGELOG.txt",
+     "LICENSE.txt",
      "README.rdoc",
      "Rakefile",
      "TODO.txt",
+     "lib/rufus-doric.rb",
      "lib/rufus/doric.rb",
      "lib/rufus/doric/couch.rb",
      "lib/rufus/doric/fixtures.rb",
+     "lib/rufus/doric/model.rb",
+     "lib/rufus/doric/models.rb",
+     "lib/rufus/doric/one_doc_model.rb",
+     "lib/rufus/doric/version.rb",
      "rufus-doric.gemspec",
      "test/base.rb",
      "test/fixtures/test/doric/69247b__picture.jpg",
@@ -36,7 +42,11 @@ a bit of rails3, rufus-jig and CouchDB
      "test/fixtures/test/doric/users__jami.png",
      "test/fixtures/test/doric/users__john.jpg",
      "test/test.rb",
-     "test/ut_0_fixtures.rb"
+     "test/ut_0_fixtures.rb",
+     "test/ut_1_model.rb",
+     "test/ut_2_model_view.rb",
+     "test/ut_3_model_lint.rb",
+     "test/ut_4_one_doc_model.rb"
   ]
   s.homepage = %q{http://github.com/jmettraux/rufus-doric/}
   s.rdoc_options = ["--charset=UTF-8"]
@@ -53,12 +63,14 @@ a bit of rails3, rufus-jig and CouchDB
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+      s.add_runtime_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
       s.add_runtime_dependency(%q<rufus-jig>, [">= 0.1.15"])
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
       s.add_development_dependency(%q<rake>, [">= 0"])
       s.add_development_dependency(%q<yard>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
     else
+      s.add_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
       s.add_dependency(%q<rufus-jig>, [">= 0.1.15"])
       s.add_dependency(%q<mime-types>, [">= 1.16"])
       s.add_dependency(%q<rake>, [">= 0"])
@@ -66,6 +78,7 @@ a bit of rails3, rufus-jig and CouchDB
       s.add_dependency(%q<jeweler>, [">= 0"])
     end
   else
+    s.add_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
     s.add_dependency(%q<rufus-jig>, [">= 0.1.15"])
     s.add_dependency(%q<mime-types>, [">= 1.16"])
     s.add_dependency(%q<rake>, [">= 0"])
