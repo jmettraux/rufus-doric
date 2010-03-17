@@ -1,0 +1,18 @@
+{
+  "_id": "users",
+  "users": {
+    "jami":{
+      "_id": "jami",
+      "password": "$2a$10$KdnI66AMv.icKaDqDcpy/uf8gMpuZRZNoYZA0txXftsU/MQDJA2.u"
+    },
+    "john":{
+      "_id": "john",
+      "password": "$2a$10$t8hGTRTPKU1sm2hhDxqFa.moEBrvH2O3ZQazoq4YsC/AKvoTJSIwy"
+    },
+    "justin":{
+      "_id": "justin",
+      "password": "$2a$10$iXQONFk5WsrtD69YqtWO1.oWfDFjJ37AjNIuA7yGwe/YbGhR./eRq",
+      "locale": "ja"
+    }
+  }
+}
