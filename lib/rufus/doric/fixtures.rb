@@ -47,11 +47,12 @@ module Doric
     #             |-- users__jami.png
     #             `-- users__john.jpg
     #
-    # this will load the documents (and their attachements) :
+    # this
     #
     #   require 'rufus/doric/fixtures'
     #   Rufus::Doric::Fixtures.load('http://127.0.0.1:5984', 'fixtures/test')
     #
+    # will load the documents (and their attachements)
     # into http://127.0.0.1:5984/doric_test
     #
     # == options

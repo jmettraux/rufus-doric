@@ -1,0 +1,37 @@
+
+= rufus-doric
+
+something at the intersection of Rails3, CouchDB and rufus-jig.
+
+
+== Rufus::Doric::Model usage
+
+
+== 'fixtures' usage
+
+Given a fixture tree
+
+  test/
+  `-- fixtures
+      `-- test
+          `-- doric
+              |-- 69247b__picture.jpg
+              |-- 69249__picture.jpg
+              |-- product0.json
+              |-- product1.json
+              |-- users.json
+              |-- users__jami.png
+              `-- users__john.jpg
+
+this
+
+  require 'rufus/doric/fixtures'
+  Rufus::Doric::Fixtures.load('http://127.0.0.1:5984', 'fixtures/test')
+
+will load the documents (and their attachements) into http://127.0.0.1:5984/doric_test
+
+
+== license
+
+MIT
+
