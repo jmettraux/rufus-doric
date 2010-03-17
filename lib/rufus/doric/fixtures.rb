@@ -151,7 +151,7 @@ module Doric
 
         Dir[File.join(dbpath, '*.json')].each do |docpath|
 
-          puts "  .reading #{docpath}" if verbose
+          puts "  .reading ...#{docpath[-60..-1]}" if verbose
 
           doc = Rufus::Json.decode(File.read(docpath))
 
@@ -183,7 +183,7 @@ module Doric
 
           docid, attname = File.basename(attpath).split('__')
 
-          puts "  .reading #{attpath}" if verbose
+          puts "  .reading ...#{attpath[-60..-1]}" if verbose
 
           current_att = db.get(File.join(docid, attname))
 
