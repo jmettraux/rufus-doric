@@ -188,7 +188,10 @@ module Doric
 
     def self.design_path
 
-      "_design/doric_#{self.to_s.downcase}"
+      name = self.to_s.downcase
+      name = name.gsub(/::/, '__')
+
+      "_design/doric_#{name}"
     end
 
     protected
