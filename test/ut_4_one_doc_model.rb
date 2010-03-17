@@ -75,5 +75,12 @@ class UtOneDocModelTest < Test::Unit::TestCase
 
     assert_equal %w[ jami justin ], User.all.collect { |u| u._id }.sort
   end
+
+  def test_destroy_all
+
+    User.destroy_all
+
+    assert_equal [], User.all
+  end
 end
 

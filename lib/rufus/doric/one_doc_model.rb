@@ -112,7 +112,7 @@ module Doric
 
     def self.destroy_all
 
-      doc = Doric::Couch.get(@doc_id)
+      doc = db.get(@doc_id)
       db.delete(doc) if doc
     end
 
