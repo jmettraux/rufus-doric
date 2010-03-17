@@ -22,6 +22,8 @@
 # Made in Japan.
 #++
 
+require 'cgi'
+
 
 module Rufus
 module Doric
@@ -62,6 +64,18 @@ module Doric
       @_id_field = block if block
 
       @_id_field
+    end
+
+    def self.view_by (key)
+
+      @keys ||= []
+      @keys << key.to_s
+
+      instance_eval %{
+        def by_#{key} (val, opts={})
+          by('#{key}', val, opts)
+        end
+      }
     end
 
     include WithH
@@ -158,9 +172,9 @@ module Doric
       get_all.each { |d| db.delete(d) }
     end
 
-    def self.all
+    def self.all (opts={})
 
-      get_all.collect { |d| self.new(d) }
+      get_all(opts).collect { |d| self.new(d) }
     end
 
     def self.find (_id)
@@ -172,15 +186,62 @@ module Doric
       self.new(doc)
     end
 
+    def self.design_path
+
+      "_design/doric_#{self.to_s.downcase}"
+    end
+
     protected
 
-    def self.get_all
+    def self.put_design_doc (key=nil)
+
+      # the 'all' view
+
+      unless key
+        db.put(DORIC_DESIGN_DOC)
+        return
+      end
+
+      # by_{key} views
+
+      x = {
+        '_id' => '_design/doric',
+        'views' => {
+          'by_doric_type' => {
+            'map' => %{
+              function(doc) {
+                if (doc.doric_type) emit(doc.doric_type, null);
+              }
+            }
+          }
+        }
+      }
+
+      ddoc = db.get(design_path) || {
+        '_id' => design_path,
+        'views' => {}
+      }
+
+      ddoc['views']["by_#{key}"] = {
+        'map' => %{
+          function(doc) {
+            if (doc.doric_type == '#{@doric_type}') {
+              emit(doc['#{key}'], null);
+            }
+          }
+        }
+      }
+
+      db.put(ddoc)
+    end
+
+    def self.get_all (opts)
+
+      # TODO : limit, skip (opts)
 
       path =
         "_design/doric/_view/by_doric_type?key=%22#{@doric_type}%22" +
         "&include_docs=true"
-
-      # TODO : limit, skip
 
       result = db.get(path)
 
@@ -188,8 +249,27 @@ module Doric
 
         # insert design doc
 
-        db.put(DORIC_DESIGN_DOC)
+        put_design_doc
         return get_all
+      end
+
+      result['rows'].collect { |r| r['doc'] }
+    end
+
+    def self.by (key, val, opts)
+
+      # TODO : limit, skip (opts)
+
+      v = Rufus::Json.encode(val)
+      v = CGI.escape(v)
+
+      path = "#{design_path}/_view/by_#{key}?key=#{v}&include_docs=true"
+
+      result = db.get(path)
+
+      unless result
+        put_design_doc(key)
+        return by(key, val)
       end
 
       result['rows'].collect { |r| r['doc'] }
