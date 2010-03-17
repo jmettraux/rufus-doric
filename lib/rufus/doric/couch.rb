@@ -56,6 +56,8 @@ module Doric
 
       u = opts[:absolute] ? "#{url}/#{name}" : "#{url}/#{name}_#{env}"
 
+      return u if opts[:url_only] || opts[:uo]
+
       Rufus::Jig::Couch.new(u)
     end
 

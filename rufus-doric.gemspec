@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ["John Mettraux"]
   s.date = %q{2010-03-17}
   s.description = %q{
-a bit of rails3, rufus-jig and CouchDB
+something at the intersection of Rails3, CouchDB and rufus-jig
   }
   s.email = %q{jmettraux@gmail.com}
   s.extra_rdoc_files = [
@@ -53,7 +53,7 @@ a bit of rails3, rufus-jig and CouchDB
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{rufus}
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{a bit of rails3, rufus-jig and CouchDB}
+  s.summary = %q{something at the intersection of Rails3, CouchDB and rufus-jig}
   s.test_files = [
     "test/test.rb"
   ]
@@ -64,14 +64,14 @@ a bit of rails3, rufus-jig and CouchDB
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
-      s.add_runtime_dependency(%q<rufus-jig>, [">= 0.1.15"])
+      s.add_runtime_dependency(%q<rufus-jig>, [">= 0.1.16"])
       s.add_runtime_dependency(%q<mime-types>, [">= 1.16"])
       s.add_development_dependency(%q<rake>, [">= 0"])
       s.add_development_dependency(%q<yard>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
     else
       s.add_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
-      s.add_dependency(%q<rufus-jig>, [">= 0.1.15"])
+      s.add_dependency(%q<rufus-jig>, [">= 0.1.16"])
       s.add_dependency(%q<mime-types>, [">= 1.16"])
       s.add_dependency(%q<rake>, [">= 0"])
       s.add_dependency(%q<yard>, [">= 0"])
@@ -79,7 +79,7 @@ a bit of rails3, rufus-jig and CouchDB
     end
   else
     s.add_dependency(%q<activerecord>, ["~> 3.0.0.beta"])
-    s.add_dependency(%q<rufus-jig>, [">= 0.1.15"])
+    s.add_dependency(%q<rufus-jig>, [">= 0.1.16"])
     s.add_dependency(%q<mime-types>, [">= 1.16"])
     s.add_dependency(%q<rake>, [">= 0"])
     s.add_dependency(%q<yard>, [">= 0"])
