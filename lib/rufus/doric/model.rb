@@ -185,7 +185,7 @@ module Doric
 
     def self.destroy_all
 
-      get_all.each { |d| db.delete(d) }
+      get_all({}).each { |d| db.delete(d) }
     end
 
     def self.all (opts={})

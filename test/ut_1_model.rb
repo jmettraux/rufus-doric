@@ -109,5 +109,16 @@ class UtModelTest < Test::Unit::TestCase
       Thing.find('nada')
     end
   end
+
+  def test_destroy_all
+
+    Thing.new('name' => 'flamenco').save!
+
+    assert_equal 1, Thing.all.size
+
+    Thing.destroy_all
+
+    assert_equal 0, Thing.all.size
+  end
 end
 
