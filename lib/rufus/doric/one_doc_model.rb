@@ -79,6 +79,21 @@ module Doric
       db.put(doc)
     end
 
+    def delete
+
+      doc = self.class.do_get(self.class.doc_id)
+      doc[self.class.doc_id].delete(@h['_id'])
+
+      # TODO : raise when the put fails
+
+      db.put(doc)
+    end
+
+    def destroy
+
+      delete
+    end
+
     #--
     # class methods
     #++

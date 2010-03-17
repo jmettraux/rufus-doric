@@ -170,6 +170,8 @@ module Doric
 
       @h['_destroyed'] = true
       db.delete(@h)
+
+      # TODO : raise when the delete fails
     end
 
     def destroy

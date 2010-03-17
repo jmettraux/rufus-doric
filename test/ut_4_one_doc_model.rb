@@ -68,5 +68,12 @@ class UtOneDocModelTest < Test::Unit::TestCase
       User.new('_id' => 'jeff').save!
     end
   end
+
+  def test_delete
+
+    User.find('john').delete
+
+    assert_equal %w[ jami justin ], User.all.collect { |u| u._id }.sort
+  end
 end
 

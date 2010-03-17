@@ -1,8 +1,8 @@
 
 [o] one_doc_model : validation
 [o] model : validation
+[o] destroy/delete
 
-[ ] destroy/delete for one_doc_model
 [ ] lsof check (jig / patron)
 
 [ ] all, by : limit and skip (pagination)
