@@ -121,9 +121,11 @@ module Doric
 
         dbname = File.split(dbpath).last
 
-        db_uri = "#{couch_uri}/#{dbname}_#{env}"
+        db_uri = dbname.index('_ENV_') ?
+          "#{couch_uri}/#{dbname.gsub(/\_ENV\_/, "_#{env}_")}" :
+          "#{couch_uri}/#{dbname}_#{env}"
 
-        if dbn = opts[:db]
+        if dbname.index('_ENV_').nil? && dbn = opts[:db]
           db_uri = "#{couch_uri}/#{dbn}"
         end
 

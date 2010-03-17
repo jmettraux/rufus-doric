@@ -1,0 +1,17 @@
+{
+  "_id": "wi!0_1!!20100224-alfafa",
+  "fei": {
+    "engine_id": "engine",
+    "expid": "0_1",
+    "wfid": "20100224-alfafa"
+  },
+  "fields": {
+    "user": null,
+    "misc": "hello",
+    "params": {
+      "ref": "tester",
+      "task": "test board"
+    }
+  },
+  "participant_name": "testers"
+}

@@ -41,6 +41,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/fixtures/test/doric/users.json",
      "test/fixtures/test/doric/users__jami.png",
      "test/fixtures/test/doric/users__john.jpg",
+     "test/fixtures/test/doric_ENV_workitems/workitem0.json",
      "test/test.rb",
      "test/ut_0_fixtures.rb",
      "test/ut_1_model.rb",
