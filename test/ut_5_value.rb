@@ -10,19 +10,19 @@ require File.join(File.dirname(__FILE__), 'base')
 require 'rufus/doric'
 
 
-class Tuples < Rufus::Doric::List
+class Tuples < Rufus::Doric::Value
 
   doc_id :tuples
   db :doric
 
   def to_s
 
-    list.sort.join(' ')
+    value.sort.join(' ')
   end
 end
 
 
-class UtListModelTest < Test::Unit::TestCase
+class UtValueTest < Test::Unit::TestCase
 
   def setup
 
@@ -47,7 +47,7 @@ class UtListModelTest < Test::Unit::TestCase
   def test_save
 
     tuples = Tuples.load
-    tuples.list << 'borneo'
+    tuples.value << 'borneo'
     tuples.save!
 
     assert_equal 'alpha borneo bravo charly', tuples.to_s
@@ -61,7 +61,7 @@ class UtListModelTest < Test::Unit::TestCase
     assert_nil @db.get('tuples')
 
     tuples = Tuples.new(
-      '_id' => 'tuples', 'list' => %w[ alpha beta delta gamma ]).save!
+      '_id' => 'tuples', 'value' => %w[ alpha beta delta gamma ]).save!
 
     assert_equal 'alpha beta delta gamma', Tuples.load.to_s
   end

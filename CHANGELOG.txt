@@ -4,7 +4,7 @@
 
 == rufus-doric - 0.1.1    not yet released
 
-- Rufus::Doric::List : one document containing a single list
+- Rufus::Doric::Value : one document containing a single [big] value
 
 
 == rufus-doric - 0.1.0    released 2010/03/17

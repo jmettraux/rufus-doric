@@ -27,9 +27,9 @@ module Rufus
 module Doric
 
   #
-  # One document containing a single list.
+  # One document containing a single value
   #
-  class List
+  class Value
 
     #
     # class 'helpers'
@@ -52,21 +52,17 @@ module Doric
       @h = h.inject({}) { |hh, (k, v)| hh[k.to_s] = v; hh }
     end
 
-    def list
+    def value
 
-      @h['list']
+      @h['value']
     end
 
     def save!
 
-      raise(
-        ArgumentError.new("'list' must be an Array")
-      ) unless list.is_a?(Array)
-
       doc = self.class.do_get(self.class.doc_id)
       doc ||= { '_id' => self.class.doc_id }
 
-      doc['list'] = list
+      doc['value'] = value
 
       db.put(doc)
     end
@@ -84,7 +80,7 @@ module Doric
 
     def self.do_get (doc_id)
 
-      db.get(doc_id) ||  { '_id' => doc_id, 'list' => [] }
+      db.get(doc_id) ||  { '_id' => doc_id, 'value' => nil }
     end
   end
 end
