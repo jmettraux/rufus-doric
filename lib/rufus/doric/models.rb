@@ -120,3 +120,5 @@ end
 require 'rufus/doric/model'
 require 'rufus/doric/one_doc_model'
 
+require 'rufus/doric/list'
+
