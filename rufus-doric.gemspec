@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rufus-doric}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Mettraux"]
-  s.date = %q{2010-03-17}
+  s.date = %q{2010-03-18}
   s.description = %q{
 something at the intersection of Rails3, CouchDB and rufus-jig
   }
@@ -28,6 +28,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "lib/rufus/doric.rb",
      "lib/rufus/doric/couch.rb",
      "lib/rufus/doric/fixtures.rb",
+     "lib/rufus/doric/list.rb",
      "lib/rufus/doric/model.rb",
      "lib/rufus/doric/models.rb",
      "lib/rufus/doric/one_doc_model.rb",
@@ -38,6 +39,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/fixtures/test/doric/69249__picture.jpg",
      "test/fixtures/test/doric/product0.json",
      "test/fixtures/test/doric/product1.json",
+     "test/fixtures/test/doric/tuples.json",
      "test/fixtures/test/doric/users.json",
      "test/fixtures/test/doric/users__jami.png",
      "test/fixtures/test/doric/users__john.jpg",
@@ -47,7 +49,8 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_1_model.rb",
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
-     "test/ut_4_one_doc_model.rb"
+     "test/ut_4_one_doc_model.rb",
+     "test/ut_5_list.rb"
   ]
   s.homepage = %q{http://github.com/jmettraux/rufus-doric/}
   s.rdoc_options = ["--charset=UTF-8"]
