@@ -82,7 +82,7 @@ module Doric
           return @db
         end
 
-        Rufus::Doric::Couch.db(@db, @db_opts)
+        Rufus::Doric.db(@db, @db_opts)
       end
     end
 

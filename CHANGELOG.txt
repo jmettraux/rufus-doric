@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.1    not yet released
 
+- Rufus::Doric.db(dbname) returns the couchdb 'connection'
 - Rufus::Doric::Value : one document containing a single [big] value
 
 

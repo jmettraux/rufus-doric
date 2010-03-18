@@ -36,9 +36,15 @@ end
 class UtModelTest < Test::Unit::TestCase
 
   def setup
-    Rufus::Doric::Couch.db('doric').delete('.')
-    Rufus::Doric::Couch.db('doric').put('.')
+
+    Rufus::Doric.db('doric').delete('.')
+    Rufus::Doric.db('doric').put('.')
+
+    Rufus::Doric.db('doric').http.cache.clear
+      # CouchDB feeds the same etags for views, even after a db has
+      # been deleted and put back, so have to do that 'forgetting'
   end
+
   #def teardown
   #end
 
@@ -106,13 +112,13 @@ class UtModelTest < Test::Unit::TestCase
   def test_not_found
 
     assert_raise Rufus::Doric::NotFound do
-      Thing.find('nada')
+      Thing.find('gozaimasen')
     end
   end
 
   def test_destroy_all
 
-    Thing.new('name' => 'flamenco').save!
+    Thing.new('name' => 'dokodemo').save!
 
     assert_equal 1, Thing.all.size
 
@@ -123,10 +129,10 @@ class UtModelTest < Test::Unit::TestCase
 
   def test_putting_in_missing_db
 
-    Rufus::Doric::Couch.db('doric').delete('.')
+    Rufus::Doric.db('doric').delete('.')
 
     assert_raise Rufus::Doric::SaveFailed do
-      Thing.new('name' => 'flamenco').save!
+      Thing.new('name' => 'doraemon').save!
     end
   end
 end

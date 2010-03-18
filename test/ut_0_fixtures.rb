@@ -15,7 +15,7 @@ class UtFixturesTest < Test::Unit::TestCase
   #def setup
   #end
   def teardown
-    couch = Rufus::Jig::Couch.new(Rufus::Doric::Couch.url)
+    couch = Rufus::Jig::Couch.new(Rufus::Doric.couch_url)
     couch.delete('doric_test')
     couch.delete('doric_nada')
     couch.delete('doric')
@@ -25,11 +25,11 @@ class UtFixturesTest < Test::Unit::TestCase
   def test_load
 
     Rufus::Doric::Fixtures.load(
-      Rufus::Doric::Couch.url, 'test/fixtures/test',
+      Rufus::Doric.couch_url, 'test/fixtures/test',
       :purge => true,
       :verbose => false)
 
-    img = Rufus::Doric::Couch.db('doric').get('users/john.jpg')
+    img = Rufus::Doric.db('doric').get('users/john.jpg')
 
     assert_not_nil img
   end
@@ -37,12 +37,12 @@ class UtFixturesTest < Test::Unit::TestCase
   def test_env_option
 
     Rufus::Doric::Fixtures.load(
-      Rufus::Doric::Couch.url, 'test/fixtures/test',
+      Rufus::Doric.couch_url, 'test/fixtures/test',
       :env => 'nada',
       :purge => true,
       :verbose => false)
 
-    img = Rufus::Doric::Couch.db('doric', :env => 'nada').get('users/john.jpg')
+    img = Rufus::Doric.db('doric', :env => 'nada').get('users/john.jpg')
 
     assert_not_nil img
   end
@@ -50,12 +50,12 @@ class UtFixturesTest < Test::Unit::TestCase
   def test_absolute_option
 
     Rufus::Doric::Fixtures.load(
-      Rufus::Doric::Couch.url, 'test/fixtures/test',
+      Rufus::Doric.couch_url, 'test/fixtures/test',
       :db => 'doric',
       :purge => true,
       :verbose => false)
 
-    img = Rufus::Doric::Couch.db('doric', :absolute => true).get('users/john.jpg')
+    img = Rufus::Doric.db('doric', :absolute => true).get('users/john.jpg')
 
     assert_not_nil img
   end

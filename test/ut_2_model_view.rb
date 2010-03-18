@@ -28,9 +28,15 @@ end
 class UtModelTest < Test::Unit::TestCase
 
   def setup
-    Rufus::Doric::Couch.db('doric').delete('.')
-    Rufus::Doric::Couch.db('doric').put('.')
+
+    Rufus::Doric.db('doric').delete('.')
+    Rufus::Doric.db('doric').put('.')
+
+    Rufus::Doric.db('doric').http.cache.clear
+      # CouchDB feeds the same etags for views, even after a db has
+      # been deleted and put back, so have to do that 'forgetting'
   end
+
   #def teardown
   #end
 

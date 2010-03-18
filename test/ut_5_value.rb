@@ -26,7 +26,7 @@ class UtValueTest < Test::Unit::TestCase
 
   def setup
 
-    @db = Rufus::Doric::Couch.db('doric')
+    @db = Rufus::Doric.db('doric')
     @db.delete('.')
     @db.put('.')
 

@@ -27,13 +27,13 @@ class UtOneDocModelTest < Test::Unit::TestCase
 
   def setup
 
-    Rufus::Doric::Couch.db('doric').delete('.')
-    Rufus::Doric::Couch.db('doric').put('.')
+    Rufus::Doric.db('doric').delete('.')
+    Rufus::Doric.db('doric').put('.')
 
     users = Rufus::Json.decode(File.read(File.join(
       File.dirname(__FILE__), 'fixtures', 'test', 'doric', 'users.json')))
 
-    Rufus::Doric::Couch.db('doric').put(users)
+    Rufus::Doric.db('doric').put(users)
   end
 
   #def teardown

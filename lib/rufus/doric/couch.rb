@@ -29,56 +29,55 @@
 module Rufus
 module Doric
 
-  module Couch
+  def self.couch_url
 
-    def self.url
-
-      if defined?(Rails)
-        return File.read(Rails.root.join('config', 'couch_url.txt')).strip
-      end
-      if File.exist?('couch_url.txt')
-        return File.read('couch_url.txt').strip
-      end
-
-      'http://127.0.0.1:5984'
+    if defined?(Rails)
+      return File.read(Rails.root.join('config', 'couch_url.txt')).strip
+    end
+    if File.exist?('couch_url.txt')
+      return File.read('couch_url.txt').strip
     end
 
-    def self.couch
-
-      Rufus::Jig::Couch.new(url)
-    end
-
-    def self.db (name, opts={})
-
-      env = opts[:env]
-      env ||= Rails.env if defined?(Rails)
-      env ||= 'test'
-
-      u = opts[:absolute] ? "#{url}/#{name}" : "#{url}/#{name}_#{env}"
-
-      return u if opts[:url_only] || opts[:uo]
-
-      Rufus::Jig::Couch.new(u)
-    end
-
-#    def self.purge! TODO (name, env)
-#
-#      result = Doric::Couch.get('_all_docs')
-#
-#      return unless result
-#
-#      result['rows'].each do |r|
-#
-#        _id = r['id']
-#
-#        next if _id.match(/^\_design\//)
-#
-#        _rev = r['value']['rev']
-#
-#        Doric::Couch.delete('_id' => _id, '_rev' => _rev)
-#      end
-#    end
+    'http://127.0.0.1:5984'
   end
+
+  def self.couch
+
+    Rufus::Jig::Couch.new(couch_url)
+  end
+
+  def self.db (name, opts={})
+
+    env = opts[:env]
+    env ||= Rails.env if defined?(Rails)
+    env ||= 'test'
+
+    u = opts[:absolute] ? "#{couch_url}/#{name}" : "#{couch_url}/#{name}_#{env}"
+
+    return u if opts[:url_only] || opts[:uo]
+
+    @connections ||= {}
+
+    @connections[u] ||= Rufus::Jig::Couch.new(u)
+  end
+
+#  def self.purge! TODO (name, env)
+#
+#    result = Doric::Couch.get('_all_docs')
+#
+#    return unless result
+#
+#    result['rows'].each do |r|
+#
+#      _id = r['id']
+#
+#      next if _id.match(/^\_design\//)
+#
+#      _rev = r['value']['rev']
+#
+#      Doric::Couch.delete('_id' => _id, '_rev' => _rev)
+#    end
+#  end
 end
 end
 
