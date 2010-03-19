@@ -216,10 +216,7 @@ module Doric
 
       # the 'all' view
 
-      unless key
-        db.put(DORIC_DESIGN_DOC)
-        return
-      end
+      return db.put(DORIC_DESIGN_DOC) unless key
 
       # by_{key} views
 
@@ -268,7 +265,10 @@ module Doric
 
         # insert design doc
 
-        put_design_doc
+        r = put_design_doc
+        raise(
+          "failed to insert design_doc in db '#{db.name}'"
+        ) if r == true
         return get_all(opts)
       end
 
