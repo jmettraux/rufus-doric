@@ -59,6 +59,9 @@ class UtModelTest < Test::Unit::TestCase
     assert_equal 1, Nada::Thing.by_colour('blue').size
     assert_equal 2, Nada::Thing.by_colour('red').size
 
+    assert_equal Nada::Thing, Nada::Thing.all.first.class
+    assert_equal Nada::Thing, Nada::Thing.by_colour('blue').first.class
+
     assert_not_nil Nada::Thing.db.get('_design/doric_nada__thing')
   end
 end

@@ -292,7 +292,7 @@ module Doric
         return by(key, val, opts)
       end
 
-      result['rows'].collect { |r| r['doc'] }
+      result['rows'].collect { |r| self.new(r['doc']) }
     end
   end
 end
