@@ -40,6 +40,8 @@ class Order < Rufus::Doric::Model
 
   h_accessor :order_id
   h_accessor :customer_id
+
+  view_by :customer_id
 end
 
 
@@ -64,7 +66,7 @@ class UtModelTest < Test::Unit::TestCase
   #def teardown
   #end
 
-  def test_belongs_to
+  def test_customer
 
     o = Order.find('a')
     c = Customer.find('fred')
@@ -77,6 +79,16 @@ class UtModelTest < Test::Unit::TestCase
     assert_raise Rufus::Doric::NotFound do
       Order.find('c').customer
     end
+  end
+
+  def test_orders
+
+    c = Customer.find('fred')
+
+    os = c.orders
+
+    assert_equal 2, os.size
+    assert_equal [ Order ], os.collect { |o| o.class }.sort.uniq
   end
 end
 

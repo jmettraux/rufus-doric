@@ -181,19 +181,37 @@ module Doric
 
     def method_missing (m, *args)
 
-      m = m.to_s
-      sm = m.singularize
+      mm = m.to_s
+      sm = mm.singularize
+      multiple = (mm != sm)
 
       klass = sm.camelize
-      klass = self.class.const_get(klass)
+      klass = (self.class.const_get(klass) rescue nil)
 
       return super unless klass
 
-      id_method = "#{m}_id"
+      id_method = multiple ? "#{sm}_ids" : "#{mm}_id"
 
-      return super unless self.respond_to?(id_method)
+      if multiple
 
-      klass.find(self.send(id_method))
+        if self.respond_to?(id_method)
+
+          ids = self.send(id_method)
+          return [] unless ids
+
+          ids.collect { |i| klass.find(i) }
+
+        else
+
+          by_method = "by_#{self.class.doric_type.singularize}_id"
+          klass.send(by_method, self._id)
+        end
+
+      else
+
+        return super unless self.respond_to?(id_method)
+        klass.find(self.send(id_method))
+      end
     end
 
     def hash
