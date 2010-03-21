@@ -179,6 +179,23 @@ module Doric
       delete
     end
 
+    def method_missing (m, *args)
+
+      m = m.to_s
+      sm = m.singularize
+
+      klass = sm.camelize
+      klass = self.class.const_get(klass)
+
+      return super unless klass
+
+      id_method = "#{m}_id"
+
+      return super unless self.respond_to?(id_method)
+
+      klass.find(self.send(id_method))
+    end
+
     #--
     # class methods
     #++
