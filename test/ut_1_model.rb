@@ -135,5 +135,21 @@ class UtModelTest < Test::Unit::TestCase
       Thing.new('name' => 'doraemon').save!
     end
   end
+
+  def test_equality
+
+    Thing.new('name' => 'onaji').save!
+    Thing.new('name' => 'chigau').save!
+
+    a = Thing.find('onaji')
+    b = Thing.find('onaji')
+    c = Thing.find('chigau')
+
+    assert_equal a, b
+    assert_equal a.hash, b.hash
+
+    assert_not_equal a, c
+    assert_not_equal a.hash, c.hash
+  end
 end
 

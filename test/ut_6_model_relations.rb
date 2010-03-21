@@ -68,8 +68,7 @@ class UtModelTest < Test::Unit::TestCase
     o = Order.find('a')
     c = Customer.find('toto')
 
-    #assert_equal c, o.customer
-    assert_equal c.name, o.customer.name
+    assert_equal c, o.customer
   end
 end
 

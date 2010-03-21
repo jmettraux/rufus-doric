@@ -4,7 +4,8 @@
 
 == rufus-doric - 0.1.1    not yet released
 
-- relations are in (_id[s])
+- equality and hash for Model
+- relations are in (_id[s]) for Model
 - now raises if putting a design doc fails
 - Rufus::Doric.db(dbname) returns the couchdb 'connection'
 - Rufus::Doric::Value : one document containing a single [big] value

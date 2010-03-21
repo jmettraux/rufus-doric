@@ -196,6 +196,16 @@ module Doric
       klass.find(self.send(id_method))
     end
 
+    def hash
+      h.hash
+    end
+
+    def == (other)
+      return false unless other.class == self.class
+      (h == other.h)
+    end
+    alias eql? ==
+
     #--
     # class methods
     #++
