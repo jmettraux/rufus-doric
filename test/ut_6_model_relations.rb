@@ -54,10 +54,11 @@ class UtModelTest < Test::Unit::TestCase
       # CouchDB feeds the same etags for views, even after a db has
       # been deleted and put back, so have to do that 'forgetting'
 
-    Customer.new(:name => 'toto', :region_id => 'eu').save!
+    Customer.new(:name => 'fred', :region_id => 'eu').save!
     Region.new(:name => 'eu').save!
-    Order.new(:order_id => 'a', :customer_id => 'toto').save!
-    Order.new(:order_id => 'b', :customer_id => 'toto').save!
+    Order.new(:order_id => 'a', :customer_id => 'fred').save!
+    Order.new(:order_id => 'b', :customer_id => 'fred').save!
+    Order.new(:order_id => 'c', :customer_id => 'nemo').save!
   end
 
   #def teardown
@@ -66,9 +67,16 @@ class UtModelTest < Test::Unit::TestCase
   def test_belongs_to
 
     o = Order.find('a')
-    c = Customer.find('toto')
+    c = Customer.find('fred')
 
     assert_equal c, o.customer
+  end
+
+  def test_missing_customer
+
+    assert_raise Rufus::Doric::NotFound do
+      Order.find('c').customer
+    end
   end
 end
 
