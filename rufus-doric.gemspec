@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Mettraux"]
-  s.date = %q{2010-03-20}
+  s.date = %q{2010-03-21}
   s.description = %q{
 something at the intersection of Rails3, CouchDB and rufus-jig
   }
@@ -50,7 +50,8 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
      "test/ut_4_one_doc_model.rb",
-     "test/ut_5_value.rb"
+     "test/ut_5_value.rb",
+     "test/ut_6_model_relations.rb"
   ]
   s.homepage = %q{http://github.com/jmettraux/rufus-doric/}
   s.rdoc_options = ["--charset=UTF-8"]
