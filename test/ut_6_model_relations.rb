@@ -19,6 +19,17 @@ class Customer < Rufus::Doric::Model
 
   h_accessor :name
   h_accessor :region_id
+  h_accessor :interest_ids
+end
+
+class Interest < Rufus::Doric::Model
+
+  db :doric
+  doric_type :interests
+
+  _id_field :name
+
+  h_accessor :name
 end
 
 class Region < Rufus::Doric::Model
@@ -56,11 +67,22 @@ class UtModelTest < Test::Unit::TestCase
       # CouchDB feeds the same etags for views, even after a db has
       # been deleted and put back, so have to do that 'forgetting'
 
-    Customer.new(:name => 'fred', :region_id => 'eu').save!
+    Customer.new(
+      :name => 'fred', :region_id => 'eu'
+    ).save!
+    Customer.new(
+      :name => 'famke', :region_id => 'eu', :interest_ids => %w[ music dance ]
+    ).save!
+
     Region.new(:name => 'eu').save!
+
     Order.new(:order_id => 'a', :customer_id => 'fred').save!
     Order.new(:order_id => 'b', :customer_id => 'fred').save!
     Order.new(:order_id => 'c', :customer_id => 'nemo').save!
+
+    Interest.new(:name => 'litterature').save!
+    Interest.new(:name => 'music').save!
+    Interest.new(:name => 'dance').save!
   end
 
   #def teardown
@@ -89,6 +111,15 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_equal 2, os.size
     assert_equal [ Order ], os.collect { |o| o.class }.sort.uniq
+  end
+
+  def test_interests
+
+    fred = Customer.find('fred')
+    famke = Customer.find('famke')
+
+    assert_equal [], fred.interests
+    assert_equal %w[ dance music ], famke.interests.collect { |i| i.name }.sort
   end
 end
 
