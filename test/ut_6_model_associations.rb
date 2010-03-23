@@ -56,7 +56,7 @@ class Order < Rufus::Doric::Model
 end
 
 
-class UtModelTest < Test::Unit::TestCase
+class UtModelAssociationsTest < Test::Unit::TestCase
 
   def setup
 
