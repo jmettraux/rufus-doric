@@ -216,6 +216,33 @@ module Doric
       delete
     end
 
+    # Returns all the other objects in the same db that have a {something}_id
+    # pointing to this object.
+    #
+    # For example, given
+    #
+    #   Person.new(
+    #     :name => 'friedrisch', :vehicle_id => 'GE1212'
+    #   ).save!
+    #
+    #   Book.new(
+    #     :description => 'romance of the three kingdoms',
+    #     :person_id => 'friedrisch'
+    #   ).save!
+    #   Computer.new(
+    #     :description => 'black macbook',
+    #     :person_id => 'friedrisch'
+    #   ).save!
+    #
+    # then
+    #
+    #   f = Person.find('friedrisch')
+    #   p f.belongings.map { |b| b.class.name }.sort)
+    #
+    # will print
+    #
+    #   ["Book", "Computer"]
+    #
     def belongings
 
       dd = db.get('_design/doric') || DORIC_DESIGN_DOC
@@ -243,6 +270,8 @@ module Doric
       result['rows'].collect { |r| Rufus::Doric.instantiate(r['doc']) }
     end
 
+    # All the association magic occur here, except for #belongings
+    #
     def method_missing (m, *args)
 
       mm = m.to_s
