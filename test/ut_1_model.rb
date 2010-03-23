@@ -32,6 +32,14 @@ class Item < Rufus::Doric::Model
   validates :supplier, :presence => true
 end
 
+class Concept < Rufus::Doric::Model
+
+  db :doric
+  doric_type :concepts
+  _id_field :name
+  property :name
+end
+
 
 class UtModelTest < Test::Unit::TestCase
 
@@ -150,6 +158,15 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_not_equal a, c
     assert_not_equal a.hash, c.hash
+  end
+
+  def test_property
+
+    Concept.new('name' => 'art').save!
+
+    c = Concept.find('art')
+
+    assert_equal 'art', c.name
   end
 end
 

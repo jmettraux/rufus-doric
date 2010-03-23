@@ -38,6 +38,7 @@ module Doric
 
   #
   # The including classes get two new class methods : h_reader and h_accessor
+  # plus property as an alias to h_accessor
   #
   module WithH
 
@@ -63,6 +64,9 @@ module Doric
             @h[name.to_s] = v
           end
         end
+      end
+      def target.property (*names)
+        h_accessor(*names)
       end
     end
   end
