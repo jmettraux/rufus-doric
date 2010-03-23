@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.2    not yet released
+== rufus-doric - 0.1.2    released 2010/03/23
 
 - person.belongings() returns all the object whose person_id is person._id
 - multi-class associations : owner.vehicles.collect &class #=> [ Car, Boat ]

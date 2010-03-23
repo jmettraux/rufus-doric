@@ -51,7 +51,9 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_3_model_lint.rb",
      "test/ut_4_one_doc_model.rb",
      "test/ut_5_value.rb",
-     "test/ut_6_model_associations.rb"
+     "test/ut_6_model_associations.rb",
+     "test/ut_7_looser_associations.rb",
+     "test/ut_8_belongings.rb"
   ]
   s.homepage = %q{http://github.com/jmettraux/rufus-doric/}
   s.rdoc_options = ["--charset=UTF-8"]
