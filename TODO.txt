@@ -3,7 +3,7 @@
 [o] model : validation
 [o] destroy/delete
 
-[ ] lsof check (jig / patron)
+[x] lsof check (jig / patron)
 
 [ ] all, by : limit and skip (pagination)
 

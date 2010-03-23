@@ -2,7 +2,10 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.1    not yet released
+== rufus-doric - 0.1.2    not yet released
+
+
+== rufus-doric - 0.1.1    released 2010/03/22
 
 - associations are in (_id[s]) for Model
 - equality and hash for Model
