@@ -22,7 +22,7 @@
 # Made in Japan.
 #++
 
-#require 'cgi'
+require 'cgi'
 
 
 module Rufus
@@ -58,11 +58,20 @@ module Doric
   #
   # will yield
   #
-  #   {"concept"=>Concept}
+  #   {"concepts"=>Concept}
   #
   def self.types
 
     (@types ||= {})
+  end
+
+  # Given a document (a Hash instance), will look at its 'doric_type' and
+  # return an instance of a Rufus::Doric::Model or nil if there is
+  # no model defined for that doric_type
+  #
+  def self.instantiate (doc)
+
+    (types[doc['doric_type']].new(doc) rescue nil)
   end
 
   #
@@ -80,7 +89,7 @@ module Doric
 
       if rt
         @doric_type = rt.to_s
-        Rufus::Doric.types[@doric_type.singularize] = self
+        Rufus::Doric.types[@doric_type] = self
       end
 
       @doric_type
@@ -207,6 +216,33 @@ module Doric
       delete
     end
 
+    def belongings
+
+      dd = db.get('_design/doric') || DORIC_DESIGN_DOC
+
+      s = self.class.doric_type.singularize
+
+      view = "by_#{s}_id"
+
+      unless dd['views'][view]
+
+        dd['views'][view] = {
+          'map' => %{
+            function (doc) {
+              if (doc.doric_type && doc.#{s}_id) emit(doc.#{s}_id, null);
+            }
+          }
+        }
+        db.put(dd)
+      end
+
+      i = CGI.escape(Rufus::Json.encode(_id))
+
+      result = db.get("_design/doric/_view/#{view}?key=#{i}&include_docs=true")
+
+      result['rows'].collect { |r| Rufus::Doric.instantiate(r['doc']) }
+    end
+
     def method_missing (m, *args)
 
       mm = m.to_s
@@ -216,9 +252,29 @@ module Doric
       klass = sm.camelize
       klass = (self.class.const_get(klass) rescue nil)
 
-      return super unless klass
+      #return super unless klass
 
       id_method = multiple ? "#{sm}_ids" : "#{mm}_id"
+
+      unless klass
+
+        return super unless self.respond_to?(id_method)
+
+        i = self.send(id_method)
+
+        if multiple
+
+          return [] unless i
+
+          return i.collect { |ii|
+            Rufus::Doric.instantiate(db.get(ii))
+          }.select { |e|
+            e != nil
+          }
+        end
+
+        return Rufus::Doric.instantiate(db.get(i))
+      end
 
       if multiple
 
@@ -238,6 +294,7 @@ module Doric
       else
 
         return super unless self.respond_to?(id_method)
+
         klass.find(self.send(id_method))
       end
     end
@@ -292,19 +349,6 @@ module Doric
       return db.put(DORIC_DESIGN_DOC) unless key
 
       # by_{key} views
-
-      x = {
-        '_id' => '_design/doric',
-        'views' => {
-          'by_doric_type' => {
-            'map' => %{
-              function(doc) {
-                if (doc.doric_type) emit(doc.doric_type, null);
-              }
-            }
-          }
-        }
-      }
 
       ddoc = db.get(design_path) || {
         '_id' => design_path,

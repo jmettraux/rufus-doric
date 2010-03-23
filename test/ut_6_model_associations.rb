@@ -83,6 +83,9 @@ class UtModelAssociationsTest < Test::Unit::TestCase
     Interest.new(:name => 'litterature').save!
     Interest.new(:name => 'music').save!
     Interest.new(:name => 'dance').save!
+
+    @fred = Customer.find('fred')
+    @famke = Customer.find('famke')
   end
 
   #def teardown
@@ -91,9 +94,8 @@ class UtModelAssociationsTest < Test::Unit::TestCase
   def test_customer
 
     o = Order.find('a')
-    c = Customer.find('fred')
 
-    assert_equal c, o.customer
+    assert_equal @fred, o.customer
   end
 
   def test_missing_customer
@@ -105,9 +107,7 @@ class UtModelAssociationsTest < Test::Unit::TestCase
 
   def test_orders
 
-    c = Customer.find('fred')
-
-    os = c.orders
+    os = @fred.orders
 
     assert_equal 2, os.size
     assert_equal [ Order ], os.collect { |o| o.class }.sort.uniq
@@ -115,11 +115,22 @@ class UtModelAssociationsTest < Test::Unit::TestCase
 
   def test_interests
 
-    fred = Customer.find('fred')
-    famke = Customer.find('famke')
+    assert_equal [], @fred.interests
+    assert_equal %w[ dance music ], @famke.interests.collect { |i| i.name }.sort
+  end
 
-    assert_equal [], fred.interests
-    assert_equal %w[ dance music ], famke.interests.collect { |i| i.name }.sort
+  def test_no_link
+
+    assert_raise NoMethodError do
+      @fred.car
+    end
+  end
+
+  def test_no_links
+
+    assert_raise NoMethodError do
+      @fred.vehicles
+    end
   end
 end
 

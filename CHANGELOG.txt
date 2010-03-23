@@ -4,6 +4,8 @@
 
 == rufus-doric - 0.1.2    not yet released
 
+- person.belongings() returns all the object whose person_id is person._id
+- multi-class associations : owner.vehicles.collect &class #=> [ Car, Boat ]
 - introduced the Rufus::Doric.types hash ({ 'car' => MyDomain::Car })
 - added property as an alias to h_accessor
 

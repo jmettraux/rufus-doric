@@ -59,8 +59,7 @@ class UtModelTest < Test::Unit::TestCase
   def test_types
 
     assert_equal Hash, Rufus::Doric.types.class
-
-    assert_equal Concept, Rufus::Doric.types['concept']
+    assert_equal Concept, Rufus::Doric.types['concepts']
   end
 
   def test_save
