@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.2    not yet released
 
+- introduced the Rufus::Doric.types hash ({ 'car' => MyDomain::Car })
 - added property as an alias to h_accessor
 
 

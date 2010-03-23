@@ -56,6 +56,13 @@ class UtModelTest < Test::Unit::TestCase
   #def teardown
   #end
 
+  def test_types
+
+    assert_equal Hash, Rufus::Doric.types.class
+
+    assert_equal Concept, Rufus::Doric.types['concept']
+  end
+
   def test_save
 
     Thing.new(

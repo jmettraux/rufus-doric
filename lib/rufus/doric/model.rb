@@ -41,6 +41,30 @@ module Doric
     }
   }
 
+  # Returns a hash of all the types (models) seen/registered.
+  #
+  # For example, after this class definition :
+  #
+  #   class Concept < Rufus::Doric::Model
+  #     db :doric
+  #     doric_type :concepts
+  #     _id_field :name
+  #     property :name
+  #   end
+  #
+  # this
+  #
+  #   p Rufus::Doric.types
+  #
+  # will yield
+  #
+  #   {"concept"=>Concept}
+  #
+  def self.types
+
+    (@types ||= {})
+  end
+
   #
   # Classes extending that class have 1 Couch document per instance
   #
@@ -54,7 +78,11 @@ module Doric
 
     def self.doric_type (rt=nil)
 
-      @doric_type = rt.to_s if rt
+      if rt
+        @doric_type = rt.to_s
+        Rufus::Doric.types[@doric_type.singularize] = self
+      end
+
       @doric_type
     end
 
