@@ -2,9 +2,9 @@
 [o] one_doc_model : validation
 [o] model : validation
 [o] destroy/delete
+[o] fix Amedeo's infinite loop (model.rb l438)
 
 [x] lsof check (jig / patron)
 
 [ ] all, by : limit and skip (pagination)
-[ ] fix Amedeo's infinite loop (model.rb l438)
 

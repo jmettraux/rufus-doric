@@ -64,5 +64,14 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_not_nil Nada::Thing.db.get('_design/doric_nada__thing')
   end
+
+  def test_no_infinite_loop_when_missing_db
+
+    Rufus::Doric.db('doric').delete('.')
+
+    assert_raise RuntimeError do
+      Nada::Thing.by_colour('blue').size
+    end
+  end
 end
 

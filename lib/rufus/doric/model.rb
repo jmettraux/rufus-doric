@@ -415,6 +415,7 @@ module Doric
         raise(
           "failed to insert design_doc in db '#{db.name}'"
         ) if r == true
+
         return get_all(opts)
       end
 
@@ -434,7 +435,15 @@ module Doric
       result = db.get(path)
 
       unless result
-        put_design_doc(key)
+
+        # insert design doc
+
+        r = put_design_doc(key)
+
+        raise(
+          "failed to insert 'by' design_doc in db '#{db.name}'"
+        ) if r == true
+
         return by(key, val, opts)
       end
 

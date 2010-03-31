@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.3    not yet released
+
+- preventing infinite loop when doing Model.by_x and db is not created
+
+
 == rufus-doric - 0.1.2    released 2010/03/23
 
 - person.belongings() returns all the object whose person_id is person._id
