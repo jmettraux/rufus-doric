@@ -6,4 +6,5 @@
 [x] lsof check (jig / patron)
 
 [ ] all, by : limit and skip (pagination)
+[ ] fix Amedeo's infinite loop (model.rb l438)
 
