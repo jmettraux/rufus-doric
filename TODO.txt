@@ -8,3 +8,7 @@
 
 [ ] all, by : limit and skip (pagination)
 
+[ ] eventually : cache the text index
+[ ] eventually : pagination for the text index
+[ ] pagination for everybody in Model (DRY)
+

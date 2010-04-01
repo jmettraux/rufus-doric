@@ -115,6 +115,11 @@ module Doric
       }
     end
 
+    def self.text_index (*keys)
+
+      @text_index = keys
+    end
+
     include WithH
     include WithDb
 
@@ -369,6 +374,22 @@ module Doric
       "_design/doric_#{name}"
     end
 
+    # Well... Returns a map { 'word' => [ docid0, docid1 ] }
+    #
+    def self.texts (key=nil)
+
+      return nil unless @text_index
+
+      path = "#{design_path}/_view/text_index"
+      path = "#{path}?key=%22#{key}%22" if key
+
+      m = get_result(path, :text_index)
+
+      m = m['rows'].inject({}) { |h, r| (h[r['key']] ||= []) << r['id']; h }
+
+      key ? m[key] : m
+    end
+
     protected
 
     def self.put_design_doc (key=nil)
@@ -384,15 +405,42 @@ module Doric
         'views' => {}
       }
 
-      ddoc['views']["by_#{key}"] = {
-        'map' => %{
-          function(doc) {
-            if (doc.doric_type == '#{@doric_type}') {
-              emit(doc['#{key}'], null);
+      if key == :text_index
+
+        # I wish I could write keys.forEach(...) directly
+
+        # do no word removing, it depends on languages, and can be
+        # done on the client side
+
+        ddoc['views']['text_index'] = {
+          'map' => %{
+            function(doc) {
+              if (doc.doric_type == '#{@doric_type}') {
+                var keys = #{Rufus::Json.encode(@text_index)};
+                for (var key in doc) {
+                  if (keys.indexOf(key) < 0) continue;
+                  if (doc[key] == undefined) continue;
+                  var words = doc[key].split(/[\s,;\.]/);
+                  words.forEach(function (word) {
+                    if (word != '') emit(word, null);
+                  });
+                }
+              }
             }
           }
         }
-      }
+      else
+
+        ddoc['views']["by_#{key}"] = {
+          'map' => %{
+            function(doc) {
+              if (doc.doric_type == '#{@doric_type}') {
+                emit(doc['#{key}'], null);
+              }
+            }
+          }
+        }
+      end
 
       db.put(ddoc)
     end
@@ -405,19 +453,7 @@ module Doric
         "_design/doric/_view/by_doric_type?key=%22#{@doric_type}%22" +
         "&include_docs=true"
 
-      result = db.get(path)
-
-      unless result
-
-        # insert design doc
-
-        r = put_design_doc
-        raise(
-          "failed to insert design_doc in db '#{db.name}'"
-        ) if r == true
-
-        return get_all(opts)
-      end
+      result = get_result(path)
 
       result['rows'].collect { |r| r['doc'] }
     end
@@ -432,22 +468,34 @@ module Doric
 
       path = "#{design_path}/_view/by_#{key}?key=#{v}&include_docs=true"
 
-      result = db.get(path)
-
-      unless result
-
-        # insert design doc
-
-        r = put_design_doc(key)
-
-        raise(
-          "failed to insert 'by' design_doc in db '#{db.name}'"
-        ) if r == true
-
-        return by(key, val, opts)
-      end
+      result = get_result(path, key)
 
       result['rows'].collect { |r| self.new(r['doc']) }
+    end
+
+    # Ensures the necessary design_doc is loaded (if first query failed)
+    # and then returns the raw result.
+    #
+    # Will raise if the design_doc can't be inserted (probably the underlying
+    # db is missing).
+    #
+    def self.get_result (path, design_doc_key=nil)
+
+      result = db.get(path)
+
+      return result if result
+
+      # insert design doc
+
+      r = put_design_doc(design_doc_key)
+
+      raise(
+        "failed to insert 'any' design_doc in db '#{db.name}'"
+      ) if r == true
+
+      # re-get
+
+      get_result(path, design_doc_key)
     end
   end
 end
