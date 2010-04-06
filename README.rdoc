@@ -4,13 +4,88 @@
 something at the intersection of Rails3, CouchDB and rufus-jig.
 
 
+== how does rufus-doric determine which Couch database to use ?
+
+At first it determines which CouchDB server to use via this code :
+
+  def self.couch_url
+
+    if defined?(Rails) # rails config/couch_url.txt
+      return File.read(Rails.root.join('config', 'couch_url.txt')).strip
+    end
+    if File.exist?('couch_url.txt') # current working directory
+      return File.read('couch_url.txt').strip
+    end
+
+    'http://127.0.0.1:5984' # the default
+  end
+
+Then the database is determined by calling Rufus::Doric.db(name)
+
+  p Rufus::Doric.db('mydb', :url_only => true)
+    # => "http://127.0.0.1:5984/mydb_test"
+
+  p Rufus::Doric.db('mydb', :env => 'camelia', :url_only => true)
+    # => "http://127.0.0.1:5984/mydb_camelia"
+
+  p Rufus::Doric.db('mydb', :env => 'camelia')
+    # => #<Rufus::Jig::Couch:0x00000102325120 @http=#<Rufus::Jig::Http:0x00000102324908 @host="127.0.0.1", @port=5984, @path="/toot_test", ...>...> 
+
+In summary, you only have to create a couch_url.txt file that contains the http:://{host}:{port} of your couch server. The rest is taken care of.
+
+
 == Rufus::Doric::Model usage
 
 see tests
 
+
 == Rufus::Doric::OneDocModel usage
 
 see tests
+
+
+== Rufus::Doric::Value usage
+
+Value is about Couch documents containing a single 'value' field (apart from _id and _rev)
+
+Given
+
+  class Tuples < Rufus::Doric::Value
+
+    doc_id :tuples
+    db :doric
+
+    def to_s
+      value.sort.join(' ')
+    end
+  end
+
+and a document 'tuples' in the database 'doric' :
+
+  {
+    "_id": "tuples",
+    "value": [ "alpha", "bravo", "charly" ]
+  }
+
+this can be done :
+
+  p Tuples.load.to_s
+    # => "alpha bravo charly"
+
+  tuples = Tuples.load
+  tuples.value << 'borneo'
+  tuples.save!
+
+  p Tuples.load.to_s
+    # => "alpha borneo bravo charly"
+
+Also :
+
+  tuples = Tuples.new(
+    '_id' => 'tuples', 'value' => %w[ alpha beta delta gamma ]).save!
+
+  p Tuples.load.to_s
+    # => "alpha beta delta gamma"
 
 
 == 'fixtures' usage
