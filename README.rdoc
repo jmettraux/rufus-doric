@@ -36,12 +36,47 @@ In summary, you only have to create a couch_url.txt file that contains the http:
 
 == Rufus::Doric::Model usage
 
-see tests
+One document per instance.
+
+  class Item < Rufus::Doric::Model
+
+    db :doric
+      # in which db it goes (remember that an _env suffix is added)
+
+    doric_type :items
+      # 'doric_type' field
+
+    _id_field :name
+      # _id field is determined from field 'name'
+
+    h_accessor :name
+    h_accessor :supplier
+
+    validates :supplier, :presence => true
+  end
+
+There is more, please look at the test/ directory to discover Model.
 
 
 == Rufus::Doric::OneDocModel usage
 
-see tests
+I use this for 'users' models.
+
+  class User < Rufus::Doric::OneDocModel
+
+    db 'doric'
+    doc_id :users
+
+    h_accessor :locale
+    h_accessor :email
+    h_reader :password
+
+    validates :password, :presence => true
+  end
+
+It places all the users in one document (whereas Rufus::Doric::Model has 1 document per instance/record).
+
+Look at the test/ directory to learn more about OneDocModel.
 
 
 == Rufus::Doric::Value usage
@@ -108,7 +143,7 @@ with :
     "value": {
       "product_lines" : [
         "blue_coat", "ulticom", "znyx"
-      ]
+      ],
       "purposes": [
         "stock", "non_stock", "replace", "rma", "loan"
       ]
