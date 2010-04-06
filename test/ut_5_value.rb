@@ -21,6 +21,14 @@ class Tuples < Rufus::Doric::Value
   end
 end
 
+class Misc < Rufus::Doric::Value
+
+  doc_id :misc
+  db :doric
+
+  h_shortcut :product_lines
+end
+
 
 class UtValueTest < Test::Unit::TestCase
 
@@ -64,6 +72,14 @@ class UtValueTest < Test::Unit::TestCase
       '_id' => 'tuples', 'value' => %w[ alpha beta delta gamma ]).save!
 
     assert_equal 'alpha beta delta gamma', Tuples.load.to_s
+  end
+
+  def test_h_shortcut
+
+    Misc.new(
+      '_id' => 'misc', 'value' => { 'product_lines' => %w[ a b c ]}).save!
+
+    assert_equal %w[ a b c ], Misc.product_lines
   end
 end
 

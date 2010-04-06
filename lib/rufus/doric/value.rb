@@ -40,6 +40,16 @@ module Doric
       @doc_id
     end
 
+    def self.h_shortcut (*keys)
+      keys.each do |k|
+        self.instance_eval %{
+          def #{k}
+            load.value[#{k.to_s.inspect}]
+          end
+        }
+      end
+    end
+
     include WithDb
 
     #

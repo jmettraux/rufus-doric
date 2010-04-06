@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.3    not yet released
 
+- Rufus::Doric::Value now has h_shortcut
 - some kind of full-text indexing (.text_index / .texts) for Model
 - preventing infinite loop when doing Model.by_x and db is not created
 

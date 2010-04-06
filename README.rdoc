@@ -1,7 +1,7 @@
 
 = rufus-doric
 
-something at the intersection of Rails3, CouchDB and rufus-jig.
+some Ruby lib at the intersection of Rails3, CouchDB and rufus-jig.
 
 
 == how does rufus-doric determine which Couch database to use ?
@@ -86,6 +86,42 @@ Also :
 
   p Tuples.load.to_s
     # => "alpha beta delta gamma"
+
+
+== Rufus::Doric::Value and h_shortcut
+
+Most of the time, I use Rufus::Doric::Value to store a hash of things :
+
+  class Misc < Rufus::Doric::Value
+
+    doc_id :misc
+    db :doric
+
+    h_shortcut :product_lines
+    h_shortcut :purposes
+  end
+
+with :
+
+  {
+    "_id": "misc",
+    "value": {
+      "product_lines" : [
+        "blue_coat", "ulticom", "znyx"
+      ]
+      "purposes": [
+        "stock", "non_stock", "replace", "rma", "loan"
+      ]
+    }
+  }
+
+then in my app, I just do
+
+  p Misc.product_lines
+    # => [ "blue_coat", "ulticom", "znyx" ]
+
+  p Misc.purposes
+    # => [ "stock", "non_stock", "replace", "rma", "loan" ]
 
 
 == 'fixtures' usage
