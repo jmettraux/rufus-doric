@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rufus-doric}
-  s.version = "0.1.3"
+  s.version = "0.1.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Mettraux"]
@@ -46,11 +46,12 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/fixtures/test/doric_ENV_workitems/workitem0.json",
      "test/test.rb",
      "test/ut_0_fixtures.rb",
+     "test/ut_10_value.rb",
      "test/ut_1_model.rb",
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
      "test/ut_4_one_doc_model.rb",
-     "test/ut_5_value.rb",
+     "test/ut_5_one_doc_model_lint.rb",
      "test/ut_6_model_associations.rb",
      "test/ut_7_looser_associations.rb",
      "test/ut_8_belongings.rb",
