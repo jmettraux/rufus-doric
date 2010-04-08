@@ -124,6 +124,32 @@ module Doric
       h ? self.new(h, doc) : nil
     end
 
+    #--
+    # methods required by ActiveModel (see test/unit/ut_5_one_doc_model_lint.rb
+    #++
+
+    def to_model
+
+      self
+    end
+
+    def persisted?
+
+      true
+    end
+
+    def to_key
+
+      @h['_id'] ? [ @h['_id'] ] : nil
+    end
+
+    # Is used by <resource>_path and <resource>_url
+    #
+    def to_param
+
+      @h['_id']
+    end
+
     protected
 
     def self.do_get (doc_id)

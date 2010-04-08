@@ -183,8 +183,13 @@ module Doric
     end
 
     #--
-    # methods required by ActiveModel (see test/unit/lint_mdmodel_test.rb
+    # methods required by ActiveModel (see test/unit/ut_3_model_lint.rb)
     #++
+
+    def to_key
+
+      @h['_id'] ? [ @h['_id'] ] : nil
+    end
 
     def to_model
 
@@ -194,6 +199,11 @@ module Doric
     def destroyed?
 
       @h['_destroyed'] == true
+    end
+
+    def persisted?
+
+      @h['_id'] != nil
     end
 
     def new_record?
