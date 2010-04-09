@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.4    released 2010/04/09
+
+- adapted to rails3 beta2
+
+
 == rufus-doric - 0.1.3    released 2010/04/06
 
 - Rufus::Doric::Value now has h_shortcut
