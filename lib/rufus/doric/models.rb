@@ -89,7 +89,7 @@ module Doric
 
           name = name.to_s
 
-          (@defaults ||= {})[name] = default if default
+          (@defaults ||= {})[name] = default unless default.nil?
 
           define_method("#{name}=") do |v|
             @h[name] = v

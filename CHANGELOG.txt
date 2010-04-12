@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.6    not yet released
+
+- property :sold, :default => false was not working. Fixed.
+
+
 == rufus-doric - 0.1.5    released 2010/04/12
 
 - implemented property :x, :default => 'y'

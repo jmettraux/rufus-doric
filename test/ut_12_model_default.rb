@@ -19,6 +19,7 @@ class Can < Rufus::Doric::Model
   h_accessor :serial
   h_accessor :content, :default => 'tuna'
   h_accessor :colour
+  property :sold, :default => false
 end
 
 
@@ -42,11 +43,12 @@ class UtModelDefaultTest < Test::Unit::TestCase
     Can.new(:serial => 'abcd', :content => 'anchovy').save!
     Can.new(:serial => 'efgh').save!
 
-    assert_equal({ 'content' => 'tuna' }, Can.defaults)
+    assert_equal({ 'content' => 'tuna', 'sold' => false }, Can.defaults)
 
     assert_equal 'anchovy', Can.find('abcd').content
     assert_equal 'tuna', Can.find('efgh').content
     assert_equal nil, Can.find('abcd').colour
+    assert_equal false, Can.find('abcd').sold
   end
 end
 
