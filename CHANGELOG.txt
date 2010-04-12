@@ -2,6 +2,9 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.5    not yet released
+
+
 == rufus-doric - 0.1.4    released 2010/04/09
 
 - adapted to rails3 beta2
