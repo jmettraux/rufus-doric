@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.5    not yet released
 
+- added :limit, :skip, :descending, :inclusive_end to by_x and all
 - added :limit and :skip to by_xxx methods (absolute and range OK)
 - Schedules.by_day([ '20101204', '20110105' ]) by range implemented
 

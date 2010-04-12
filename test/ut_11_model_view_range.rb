@@ -46,7 +46,7 @@ class UtModelViewRangeTest < Test::Unit::TestCase
 
   def test_view_by_range
 
-    #assert_equal 'shopping', Schedule.by_day('20101224').first.name
+    assert_equal 'shopping', Schedule.by_day('20101224').first.name
 
     assert_equal(
       %w[ climbing drinking ],
@@ -58,6 +58,10 @@ class UtModelViewRangeTest < Test::Unit::TestCase
     assert_equal(
       %w[ shopping wrestling cooking ],
       Schedule.by_day([ nil, '20101225' ]).collect { |s| s.name })
+
+    assert_equal(
+      %w[ drinking climbing cooking ],
+      Schedule.by_day([ nil, '20101225' ], :descending => true).collect { |s| s.name })
   end
 
   def test_view_limit
@@ -72,6 +76,12 @@ class UtModelViewRangeTest < Test::Unit::TestCase
     assert_equal(
       %w[ drinking ],
       Schedule.by_day([ '20101226', nil ], :skip => 1).collect { |s| s.name })
+  end
+
+  def test_all_opts
+
+    assert_equal 4, Schedule.all(:skip => 1).size
+    assert_equal 2, Schedule.all(:skip => 2, :limit => 2).size
   end
 end
 

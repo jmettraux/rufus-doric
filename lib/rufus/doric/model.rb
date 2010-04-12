@@ -455,13 +455,29 @@ module Doric
       db.put(ddoc)
     end
 
+    def self.add_common_options (qs, opts)
+
+      if limit = opts[:limit]
+        qs << "limit=#{limit}"
+      end
+      if skip = opts[:skip]
+        qs << "skip=#{skip}"
+      end
+      if opts[:descending]
+        qs << "descending=true"
+      end
+      if opts[:inclusive_end]
+        qs << "inclusive_end=true"
+      end
+    end
+
     def self.get_all (opts)
 
-      # TODO : limit, skip (opts)
+      qs = [ 'include_docs=true', "key=%22#{@doric_type}%22" ]
 
-      path =
-        "_design/doric/_view/by_doric_type?key=%22#{@doric_type}%22" +
-        "&include_docs=true"
+      add_common_options(qs, opts)
+
+      path = "_design/doric/_view/by_doric_type?#{qs.join('&')}"
 
       result = get_result(path)
 
@@ -482,12 +498,7 @@ module Doric
         qs << "key=#{Rufus::Doric.escape(val)}"
       end
 
-      if limit = opts[:limit]
-        qs << "limit=#{limit}"
-      end
-      if skip = opts[:skip]
-        qs << "skip=#{skip}"
-      end
+      add_common_options(qs, opts)
 
       path = "#{design_path}/_view/by_#{key}?#{qs.join('&')}"
 
