@@ -62,6 +62,11 @@ class UtModelTest < Test::Unit::TestCase
     assert_equal Concept, Rufus::Doric.types['concepts']
   end
 
+  def test_defaults
+
+    assert_equal({}, Concept.defaults)
+  end
+
   def test_save
 
     Thing.new(

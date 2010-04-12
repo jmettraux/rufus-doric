@@ -54,7 +54,7 @@ module Doric
 
     def initialize (h, doc=nil)
 
-      @h = h.inject({}) { |hh, (k, v)| hh[k.to_s] = v; hh }
+      @h = h.inject(self.class.defaults.dup) { |hh, (k, v)| hh[k.to_s] = v; hh }
 
       if doc && atts = doc['_attachments']
 

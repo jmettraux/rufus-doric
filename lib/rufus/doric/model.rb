@@ -131,7 +131,7 @@ module Doric
 
     def initialize (doc={})
 
-      @h = doc.inject({}) { |h, (k, v)| h[k.to_s] = v; h }
+      @h = doc.inject(self.class.defaults.dup) { |h, (k, v)| h[k.to_s] = v; h }
       @h['doric_type'] = self.class.doric_type
     end
 

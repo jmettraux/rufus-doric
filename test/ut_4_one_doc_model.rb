@@ -39,6 +39,11 @@ class UtOneDocModelTest < Test::Unit::TestCase
   #def teardown
   #end
 
+  def test_defaults
+
+    assert_equal({}, User.defaults)
+  end
+
   def test_all
 
     assert_equal %w[ jami john justin ], User.all.collect { |u| u._id }.sort

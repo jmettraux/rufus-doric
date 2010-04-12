@@ -50,28 +50,55 @@ module Doric
 
     def self.included (target)
 
+      def target.defaults
+
+        @defaults || {}
+      end
+
       def target.known_fields
+
         @known_fields
       end
 
       def target.h_reader (*names)
+
         names.each do |name|
+
           name = name.to_s
+
           (@known_fields ||= []) << name
+
           define_method(name) do
             @h[name]
           end
         end
       end
+
       def target.h_accessor (*names)
+
+        default = nil
+
+        if names.last.is_a?(Hash)
+          opts = names.pop
+          default = opts[:default]
+        end
+
         h_reader(*names)
+
         names.each do |name|
+
+          name = name.to_s
+
+          (@defaults ||= {})[name] = default if default
+
           define_method("#{name}=") do |v|
-            @h[name.to_s] = v
+            @h[name] = v
           end
         end
       end
+
       def target.property (*names)
+
         h_accessor(*names)
       end
     end
