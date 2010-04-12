@@ -470,8 +470,6 @@ module Doric
 
     def self.by (key, val, opts)
 
-      # TODO : limit, skip (opts)
-
       qs = [ 'include_docs=true' ]
 
       if val.is_a?(Array)
@@ -482,6 +480,13 @@ module Doric
       else
 
         qs << "key=#{Rufus::Doric.escape(val)}"
+      end
+
+      if limit = opts[:limit]
+        qs << "limit=#{limit}"
+      end
+      if skip = opts[:skip]
+        qs << "skip=#{skip}"
       end
 
       path = "#{design_path}/_view/by_#{key}?#{qs.join('&')}"

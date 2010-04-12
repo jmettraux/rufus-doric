@@ -34,6 +34,7 @@ class UtModelViewRangeTest < Test::Unit::TestCase
       # CouchDB feeds the same etags for views, even after a db has
       # been deleted and put back, so have to do that 'forgetting'
 
+    Schedule.new('name' => 'wrestling', 'day' => '20101224').save!
     Schedule.new('name' => 'shopping', 'day' => '20101224').save!
     Schedule.new('name' => 'cooking', 'day' => '20101225').save!
     Schedule.new('name' => 'climbing', 'day' => '20101226').save!
@@ -55,8 +56,22 @@ class UtModelViewRangeTest < Test::Unit::TestCase
       Schedule.by_day([ '20101226' ]).collect { |s| s.name })
 
     assert_equal(
-      %w[ shopping cooking ],
+      %w[ shopping wrestling cooking ],
       Schedule.by_day([ nil, '20101225' ]).collect { |s| s.name })
+  end
+
+  def test_view_limit
+
+    assert_equal(
+      %w[ shopping ],
+      Schedule.by_day('20101224', :limit => 1).collect { |s| s.name })
+
+    assert_equal(
+      %w[ climbing ],
+      Schedule.by_day([ '20101226', nil ], :limit => 1).collect { |s| s.name })
+    assert_equal(
+      %w[ drinking ],
+      Schedule.by_day([ '20101226', nil ], :skip => 1).collect { |s| s.name })
   end
 end
 
