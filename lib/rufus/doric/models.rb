@@ -36,6 +36,12 @@ module Doric
     s.to_s.strip.gsub(/[\s\/:;\*\\\+\?]/, '_')
   end
 
+  def self.escape (o)
+
+    #"%22#{o}%22"
+    CGI.escape(Rufus::Json.encode(o))
+  end
+
   #
   # The including classes get two new class methods : h_reader and h_accessor
   # plus property as an alias to h_accessor

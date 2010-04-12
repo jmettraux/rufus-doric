@@ -25,7 +25,7 @@ module Nada
 end
 
 
-class UtModelTest < Test::Unit::TestCase
+class UtModelViewTest < Test::Unit::TestCase
 
   def setup
 

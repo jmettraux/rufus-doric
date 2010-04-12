@@ -278,7 +278,7 @@ module Doric
         db.put(dd)
       end
 
-      i = CGI.escape(Rufus::Json.encode(_id))
+      i = Rufus::Doric.escape(_id)
 
       result = db.get("_design/doric/_view/#{view}?key=#{i}&include_docs=true")
 
@@ -472,11 +472,19 @@ module Doric
 
       # TODO : limit, skip (opts)
 
-      #v = Rufus::Json.encode(val)
-      #v = CGI.escape(v)
-      v = "%22#{val}%22"
+      qs = [ 'include_docs=true' ]
 
-      path = "#{design_path}/_view/by_#{key}?key=#{v}&include_docs=true"
+      if val.is_a?(Array)
+
+        st, en = val
+        qs << "startkey=#{Rufus::Doric.escape(st)}" if st
+        qs << "endkey=#{Rufus::Doric.escape(en)}" if en
+      else
+
+        qs << "key=#{Rufus::Doric.escape(val)}"
+      end
+
+      path = "#{design_path}/_view/by_#{key}?#{qs.join('&')}"
 
       result = get_result(path, key)
 

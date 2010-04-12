@@ -4,6 +4,8 @@
 
 == rufus-doric - 0.1.5    not yet released
 
+- Schedules.by_day([ '20101204', '20110105' ]) by range implemented
+
 
 == rufus-doric - 0.1.4    released 2010/04/09
 

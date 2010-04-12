@@ -1,0 +1,62 @@
+
+#
+# testing rufus-doric
+#
+# Mon Apr 12 10:38:53 JST 2010
+#
+
+require File.join(File.dirname(__FILE__), 'base')
+
+require 'rufus/doric'
+
+
+class Schedule < Rufus::Doric::Model
+
+  db :doric
+  doric_type :schedules
+
+  _id_field :name
+  h_accessor :name
+  h_accessor :day #yyyymmdd
+
+  view_by :day
+end
+
+
+class UtModelViewRangeTest < Test::Unit::TestCase
+
+  def setup
+
+    Rufus::Doric.db('doric').delete('.')
+    Rufus::Doric.db('doric').put('.')
+
+    Rufus::Doric.db('doric').http.cache.clear
+      # CouchDB feeds the same etags for views, even after a db has
+      # been deleted and put back, so have to do that 'forgetting'
+
+    Schedule.new('name' => 'shopping', 'day' => '20101224').save!
+    Schedule.new('name' => 'cooking', 'day' => '20101225').save!
+    Schedule.new('name' => 'climbing', 'day' => '20101226').save!
+    Schedule.new('name' => 'drinking', 'day' => '20101227').save!
+  end
+
+  #def teardown
+  #end
+
+  def test_view_by_range
+
+    #assert_equal 'shopping', Schedule.by_day('20101224').first.name
+
+    assert_equal(
+      %w[ climbing drinking ],
+      Schedule.by_day([ '20101226', nil ]).collect { |s| s.name })
+    assert_equal(
+      %w[ climbing drinking ],
+      Schedule.by_day([ '20101226' ]).collect { |s| s.name })
+
+    assert_equal(
+      %w[ shopping cooking ],
+      Schedule.by_day([ nil, '20101225' ]).collect { |s| s.name })
+  end
+end
+
