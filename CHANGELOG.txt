@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.6    not yet released
+== rufus-doric - 0.1.6    released 2010/04/14
 
 - property :sold, :default => false was not working. Fixed.
 
