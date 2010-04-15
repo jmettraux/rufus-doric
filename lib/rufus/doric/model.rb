@@ -415,10 +415,7 @@ module Doric
     def generate_id
 
       s = [
-        $$,
-        Thread.current.object_id,
-        self.object_id,
-        Time.now.to_f.to_s.gsub(/\./, '')
+        $$, Thread.current.object_id, self.object_id, Time.now.to_f.to_s
       ].join('_')
 
       "#{self.class.doric_type}__#{s}"

@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.7    not yet released
 
+- neutralize_id(i) now turns dots to underscores as well
 - model : default _id generator (when no _id_field specified)
 
 
