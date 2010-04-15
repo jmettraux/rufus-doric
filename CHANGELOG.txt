@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.7    not yet released
+
+- model : default _id generator (when no _id_field specified)
+
+
 == rufus-doric - 0.1.6    released 2010/04/14
 
 - property :sold, :default => false was not working. Fixed.

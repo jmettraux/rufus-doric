@@ -164,15 +164,22 @@ module Doric
 
       raise ActiveRecord::RecordInvalid.new(self) unless valid?
 
-      if @h['_id'].nil? && self.class._id_field
+      if @h['_id'].nil?
 
-        i = if self.class._id_field.is_a?(String)
-          self.send(self.class._id_field)
+        if self.class._id_field
+
+          @h['_id'] = if self.class._id_field.is_a?(String)
+            self.send(self.class._id_field)
+          else
+            self.instance_eval(&self.class._id_field)
+          end
+
         else
-          self.instance_eval &self.class._id_field
+
+          @h['_id'] = generate_id
         end
 
-        @h['_id'] = Rufus::Doric.neutralize_id(i)
+        @h['_id'] = Rufus::Doric.neutralize_id(@h['_id'])
       end
 
       raise ActiveRecord::RecordInvalid.new(self) if @h['_id'].nil?
@@ -401,6 +408,21 @@ module Doric
     end
 
     protected
+
+    # When there is no _id_field specified, this id generation routine
+    # is used.
+    #
+    def generate_id
+
+      s = [
+        $$,
+        Thread.current.object_id,
+        self.object_id,
+        Time.now.to_f.to_s.gsub(/\./, '')
+      ].join('_')
+
+      "#{self.class.doric_type}__#{s}"
+    end
 
     def self.put_design_doc (key=nil)
 
