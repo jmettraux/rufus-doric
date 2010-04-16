@@ -2,6 +2,9 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.8    not yet released
+
+
 == rufus-doric - 0.1.7    released 2010/04/16
 
 - view_by 'tysec', "emit(doc.type + '__' + doc.security_level, null);"

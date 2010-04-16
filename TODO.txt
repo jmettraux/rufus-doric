@@ -6,12 +6,11 @@
 [o] all, by : limit and skip (pagination)
 [o] pagination for everybody in Model (DRY)
 [o] eventually : pagination for the text index
+[o] view_by 'name', %{ emit(doc.nada) }
 
 [x] lsof check (jig / patron)
 
 [ ] eventually : cache the text index
 
-[ ] view_by 'name' do
-      %{ emit(doc.nada) }
-    end
+[ ] view_by 'x', 'emit' ==> view 'x', 'emit' ==> Model.x(key)...
 
