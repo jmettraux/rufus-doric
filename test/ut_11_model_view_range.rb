@@ -50,18 +50,21 @@ class UtModelViewRangeTest < Test::Unit::TestCase
 
     assert_equal(
       %w[ climbing drinking ],
-      Schedule.by_day([ '20101226', nil ]).collect { |s| s.name })
+      Schedule.by_day(:start => '20101226').collect { |s| s.name })
     assert_equal(
       %w[ climbing drinking ],
-      Schedule.by_day([ '20101226' ]).collect { |s| s.name })
+      Schedule.by_day(:start => '20101226', :end => nil).collect { |s| s.name })
 
     assert_equal(
       %w[ shopping wrestling cooking ],
-      Schedule.by_day([ nil, '20101225' ]).collect { |s| s.name })
+      Schedule.by_day(:end => '20101225').collect { |s| s.name })
+    assert_equal(
+      %w[ shopping wrestling cooking ],
+      Schedule.by_day(:start => nil, :end => '20101225').collect { |s| s.name })
 
     assert_equal(
       %w[ drinking climbing cooking ],
-      Schedule.by_day([ nil, '20101225' ], :descending => true).collect { |s| s.name })
+      Schedule.by_day(:end => '20101225', :descending => true).collect { |s| s.name })
   end
 
   def test_view_limit
@@ -72,10 +75,10 @@ class UtModelViewRangeTest < Test::Unit::TestCase
 
     assert_equal(
       %w[ climbing ],
-      Schedule.by_day([ '20101226', nil ], :limit => 1).collect { |s| s.name })
+      Schedule.by_day(:start => '20101226', :limit => 1).collect { |s| s.name })
     assert_equal(
       %w[ drinking ],
-      Schedule.by_day([ '20101226', nil ], :skip => 1).collect { |s| s.name })
+      Schedule.by_day(:start => '20101226', :skip => 1).collect { |s| s.name })
   end
 
   def test_all_opts

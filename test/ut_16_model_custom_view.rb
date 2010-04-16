@@ -22,6 +22,9 @@ class Team < Rufus::Doric::Model
   view_by 'tysec', %{
     emit(doc.type + '__' + doc.security_level, null);
   }
+  view_by 'tysec2', %{
+    emit([ doc.type, doc.security_level ], null);
+  }
 end
 
 
@@ -40,7 +43,7 @@ class UtModelCustomViewTest < Test::Unit::TestCase
   #def teardown
   #end
 
-  def test_view_by_and
+  def test_views
 
     Team.new(
       'type' => 'rifle',
@@ -63,8 +66,10 @@ class UtModelCustomViewTest < Test::Unit::TestCase
       'security_level' => 'c'
     ).save!
 
-    assert_equal 2, Team.by_tysec('rifle__a').size
-    assert_equal 1, Team.by_tysec('rifle__b').size
+    assert_equal 2, Team.tysec('rifle__a').size
+    assert_equal 1, Team.tysec('rifle__b').size
+
+    assert_equal 2, Team.tysec2(%w[ rifle a ]).size
   end
 end
 

@@ -7,6 +7,7 @@
 [o] pagination for everybody in Model (DRY)
 [o] eventually : pagination for the text index
 [o] view_by 'name', %{ emit(doc.nada) }
+[o] start and end key should be by_x(:start => a, :end => b)
 
 [x] lsof check (jig / patron)
 
