@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.7    not yet released
 
+- view_by 'tysec', "emit(doc.type + '__' + doc.security_level, null);"
 - model : view_by [ :x, :y ]  => view_by_x_and_y
 - neutralize_id(i) now turns dots to underscores as well
 - model : default _id generator (when no _id_field specified)

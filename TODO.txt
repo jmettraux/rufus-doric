@@ -3,12 +3,15 @@
 [o] model : validation
 [o] destroy/delete
 [o] fix Amedeo's infinite loop (model.rb l438)
+[o] all, by : limit and skip (pagination)
+[o] pagination for everybody in Model (DRY)
+[o] eventually : pagination for the text index
 
 [x] lsof check (jig / patron)
 
-[ ] all, by : limit and skip (pagination)
-
 [ ] eventually : cache the text index
-[ ] eventually : pagination for the text index
-[ ] pagination for everybody in Model (DRY)
+
+[ ] view_by 'name' do
+      %{ emit(doc.nada) }
+    end
 

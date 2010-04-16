@@ -103,18 +103,28 @@ module Doric
       @_id_field
     end
 
-    def self.view_by (key)
+    def self.view_by (key, func=nil)
 
-      @keys ||= []
-      @keys << key.to_s
+      if func
 
-      skey = key.is_a?(Array) ? key.join('_and_') : key
+        k = { key => func }
 
-      instance_eval %{
-        def by_#{skey} (val, opts={})
-          by(#{key.inspect}, val, opts)
-        end
-      }
+        instance_eval %{
+          def by_#{key} (val, opts={})
+            by(#{k.inspect}, val, opts)
+          end
+        }
+
+      else
+
+        skey = key.is_a?(Array) ? key.join('_and_') : key
+
+        instance_eval %{
+          def by_#{skey} (val, opts={})
+            by(#{key.inspect}, val, opts)
+          end
+        }
+      end
     end
 
     def self.text_index (*keys)
@@ -466,6 +476,12 @@ module Doric
           })
         }
 
+      elsif key.is_a?(Hash)
+
+        ddoc['views']["by_#{key.keys.first}"] = {
+          'map' => func(key.values.first)
+        }
+
       elsif key.is_a?(Array)
 
         skey = key.join('_and_')
@@ -534,7 +550,11 @@ module Doric
 
       add_common_options(qs, opts)
 
-      skey = key.is_a?(Array) ? key.join('_and_') : key
+      skey = case key
+        when Array then key.join('_and_')
+        when Hash then key.keys.first
+        else key
+      end
 
       path = "#{design_path}/_view/by_#{skey}?#{qs.join('&')}"
 
