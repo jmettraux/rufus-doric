@@ -108,9 +108,11 @@ module Doric
       @keys ||= []
       @keys << key.to_s
 
+      skey = key.is_a?(Array) ? key.join('_and_') : key
+
       instance_eval %{
-        def by_#{key} (val, opts={})
-          by('#{key}', val, opts)
+        def by_#{skey} (val, opts={})
+          by(#{key.inspect}, val, opts)
         end
       }
     end
@@ -421,6 +423,15 @@ module Doric
       "#{self.class.doric_type}__#{s}"
     end
 
+    def self.func (body)
+      %{
+        function (doc) {
+          if (doc.doric_type != '#{@doric_type}') return;
+          #{body}
+        }
+      }
+    end
+
     def self.put_design_doc (key=nil)
 
       # the 'all' view
@@ -442,32 +453,36 @@ module Doric
         # done on the client side
 
         ddoc['views']['text_index'] = {
-          'map' => %{
-            function(doc) {
-              if (doc.doric_type == '#{@doric_type}') {
-                var keys = #{Rufus::Json.encode(@text_index)};
-                for (var key in doc) {
-                  if (keys.indexOf(key) < 0) continue;
-                  if (doc[key] == undefined) continue;
-                  var words = doc[key].split(/[\s,;\.]/);
-                  words.forEach(function (word) {
-                    if (word != '') emit(word, null);
-                  });
-                }
-              }
+          'map' => func(%{
+            var keys = #{Rufus::Json.encode(@text_index)};
+            for (var key in doc) {
+              if (keys.indexOf(key) < 0) continue;
+              if (doc[key] == undefined) continue;
+              var words = doc[key].split(/[\s,;\.]/);
+              words.forEach(function (word) {
+                if (word != '') emit(word, null);
+              });
             }
-          }
+          })
         }
+
+      elsif key.is_a?(Array)
+
+        skey = key.join('_and_')
+        keys = key.collect { |k| "doc['#{k}']" }.join(', ')
+
+        ddoc['views']["by_#{skey}"] = {
+          'map' => func(%{
+            emit([#{keys}], null);
+          })
+        }
+
       else
 
         ddoc['views']["by_#{key}"] = {
-          'map' => %{
-            function(doc) {
-              if (doc.doric_type == '#{@doric_type}') {
-                emit(doc['#{key}'], null);
-              }
-            }
-          }
+          'map' => func(%{
+            emit(doc['#{key}'], null);
+          })
         }
       end
 
@@ -507,7 +522,7 @@ module Doric
 
       qs = [ 'include_docs=true' ]
 
-      if val.is_a?(Array)
+      if val.is_a?(Array) && ( ! key.is_a?(Array))
 
         st, en = val
         qs << "startkey=#{Rufus::Doric.escape(st)}" if st
@@ -519,7 +534,9 @@ module Doric
 
       add_common_options(qs, opts)
 
-      path = "#{design_path}/_view/by_#{key}?#{qs.join('&')}"
+      skey = key.is_a?(Array) ? key.join('_and_') : key
+
+      path = "#{design_path}/_view/by_#{skey}?#{qs.join('&')}"
 
       result = get_result(path, key)
 
