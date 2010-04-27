@@ -2,6 +2,9 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.9    not yet released
+
+
 == rufus-doric - 0.1.8    released 2010/04/16
 
 - view_by 'funcname', 'func' creates a 'funcname' method, not a 'by_funcname'
