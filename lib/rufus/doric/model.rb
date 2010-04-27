@@ -170,6 +170,13 @@ module Doric
       end
     end
 
+    # Shorter than view_by.
+    #
+    def self.view (key, func=nil)
+
+      view_by(key, func)
+    end
+
     def self.text_index (*keys)
 
       @text_index = keys

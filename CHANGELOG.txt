@@ -4,6 +4,8 @@
 
 == rufus-doric - 0.1.9    not yet released
 
+- view, as shortcut for view_by
+
 
 == rufus-doric - 0.1.8    released 2010/04/16
 

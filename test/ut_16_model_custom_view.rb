@@ -22,7 +22,7 @@ class Team < Rufus::Doric::Model
   view_by 'tysec', %{
     emit(doc.type + '__' + doc.security_level, null);
   }
-  view_by 'tysec2', %{
+  view 'tysec2', %{
     emit([ doc.type, doc.security_level ], null);
   }
 end
