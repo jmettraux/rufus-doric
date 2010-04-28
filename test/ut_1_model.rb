@@ -90,6 +90,14 @@ class UtModelTest < Test::Unit::TestCase
     end
   end
 
+  def test_missing_id_when_saving
+
+    assert_raise ActiveRecord::RecordInvalid do
+      Thing.new(
+      ).save!
+    end
+  end
+
   def test_copy
 
     Thing.new(

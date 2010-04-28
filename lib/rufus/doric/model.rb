@@ -244,7 +244,9 @@ module Doric
         @h['_id'] = Rufus::Doric.neutralize_id(@h['_id'])
       end
 
-      raise ActiveRecord::RecordInvalid.new(self) if @h['_id'].nil?
+      if @h['_id'].nil? || @h['_id'].strip == ''
+        raise ActiveRecord::RecordInvalid.new(self)
+      end
 
       r = db.put(@h)
 
