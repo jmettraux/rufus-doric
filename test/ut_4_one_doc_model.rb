@@ -22,6 +22,12 @@ class User < Rufus::Doric::OneDocModel
   validates :password, :presence => true
 end
 
+#class Site < Rufus::Doric::OneDocModel
+#  doc_id :sites
+#  property :name
+#  property :streets
+#end
+
 
 class UtOneDocModelTest < Test::Unit::TestCase
 
@@ -87,5 +93,10 @@ class UtOneDocModelTest < Test::Unit::TestCase
 
     assert_equal [], User.all
   end
+
+#  def test_missing_db_declaration
+#
+#    Site.new(:name => 'Eur', :streets => [:one, :two, :three]).save!
+#  end
 end
 
