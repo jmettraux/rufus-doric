@@ -23,6 +23,7 @@
 #++
 
 require 'cgi'
+require 'mime/types'
 
 
 module Rufus
@@ -251,6 +252,15 @@ module Doric
       r = db.put(@h)
 
       raise(SaveFailed.new(self.class.doric_type, _id)) unless r.nil?
+    end
+
+    def attach (attname, data)
+
+      doc = db.get(@h['_id'])
+
+      db.attach(
+        doc, attname, data,
+        :content_type => ::MIME::Types.type_for(attname).first.to_s)
     end
 
     #--

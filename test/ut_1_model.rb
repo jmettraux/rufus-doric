@@ -187,5 +187,22 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_equal 'art', c.name
   end
+
+  def test_attach
+
+    txt = File.read(__FILE__)
+
+    t = Thing.new('name' => 'piece_of_code')
+    t.save!
+
+    assert_equal [], t.attachments
+
+    t.attach('code.txt', txt)
+
+    t = Thing.find('piece_of_code')
+
+    assert_equal [ 'code.txt' ], t.attachments
+    assert_equal txt, t.db.get('piece_of_code/code.txt')
+  end
 end
 

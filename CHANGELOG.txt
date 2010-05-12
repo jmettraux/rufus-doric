@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.9    not yet released
 
+- model#attach(attachment_name, data)
 - raising ActiveRecord::RecordInvalid if _id is missing or ''
 - view, as shortcut for view_by
 
