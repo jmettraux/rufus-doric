@@ -263,6 +263,13 @@ module Doric
         :content_type => ::MIME::Types.type_for(attname).first.to_s)
     end
 
+    def detach (attname)
+
+      raise ArgumentError.new("model not yet saved") unless @h['_rev']
+
+      db.delete("#{@h['_id']}/#{attname}?rev=#{@h['_rev']}")
+    end
+
     #--
     # methods required by ActiveModel (see test/unit/ut_3_model_lint.rb)
     #++
