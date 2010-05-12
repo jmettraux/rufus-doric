@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.9    not yet released
+== rufus-doric - 0.1.9    released 2010/05/13
 
 - model#detach(attachment_name)
 - model#attach(attachment_name, data)
