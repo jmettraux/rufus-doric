@@ -184,6 +184,11 @@ this
 will load the documents (and their attachements) into http://127.0.0.1:5984/doric_test
 
 
+== credits
+
+Claudio Petasecca Donati - for his help about attachments
+
+
 == license
 
 MIT
