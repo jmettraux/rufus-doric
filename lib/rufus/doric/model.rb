@@ -23,6 +23,7 @@
 #++
 
 require 'cgi'
+require 'base64'
 require 'mime/types'
 
 
@@ -102,6 +103,18 @@ module Doric
       @_id_field = block if block
 
       @_id_field
+    end
+
+    def self.attachment (attachment_name)
+
+      class_eval %{
+        def #{attachment_name}
+          read('#{attachment_name}')
+        end
+        def #{attachment_name}= (data, opts={})
+          attach('#{attachment_name}', data, opts)
+        end
+      }
     end
 
     # Creates a by_{key} method.
@@ -254,13 +267,52 @@ module Doric
       raise(SaveFailed.new(self.class.doric_type, _id)) unless r.nil?
     end
 
-    def attach (attname, data)
+    def attach (attname, data, opts={})
 
-      doc = db.get(@h['_id'])
+      extname = File.extname(attname)
+      basename = File.basename(attname, extname)
+      mime = ::MIME::Types.type_for(attname).first
 
-      db.attach(
-        doc, attname, data,
-        :content_type => ::MIME::Types.type_for(attname).first.to_s)
+      if data.is_a?(File)
+        mime = ::MIME::Types.type_for(data.path).first
+        data = data.read
+      elsif data.is_a?(Array)
+        data, mime = data
+        mime = ::MIME::Types[mime].first
+      end
+
+      raise ArgumentError.new("couldn't determine mime type") unless mime
+
+      attname = "#{attname}.#{mime.extensions.first}" if extname == ''
+
+      if @h['_rev'] # document has already been saved
+
+        db.attach(
+          @h['_id'], @h['_rev'], attname, data, :content_type => mime.to_s)
+
+      else # document hasn't yet been saved, inline attachment...
+
+        (@h['_attachments'] ||= {})[attname] = {
+          'content_type' => mime.to_s,
+          'data' => Base64.encode64(data).gsub(/[\r\n]/, '')
+        }
+      end
+    end
+
+    # Reads an attachment
+    #
+    #   model.read('icon')
+    #   model.read('user_picture.jpg')
+    #   model.read(:user_picture)
+    #
+    def read (attname)
+
+      attname = attname.to_s
+
+      extname = File.extname(attname)
+      attname = attachments.find { |a| a.match(/^#{attname}/) } if extname == ''
+
+      db.get("#{@h['_id']}/#{attname}")
     end
 
     def detach (attname)

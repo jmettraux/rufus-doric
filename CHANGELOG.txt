@@ -2,6 +2,12 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.10    not yet released
+
+- model attachment :x for properties like attachments (#att and #att=(x))
+- model#read(attachment_name)
+
+
 == rufus-doric - 0.1.9    released 2010/05/13
 
 - model#detach(attachment_name)
