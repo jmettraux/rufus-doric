@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rufus-doric}
-  s.version = "0.1.9"
+  s.version = "0.1.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Mettraux"]
@@ -34,6 +34,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "lib/rufus/doric/value.rb",
      "lib/rufus/doric/version.rb",
      "rufus-doric.gemspec",
+     "test/al_vetro.png",
      "test/base.rb",
      "test/fixtures/test/doric/69247b__picture.jpg",
      "test/fixtures/test/doric/69249__picture.jpg",
@@ -53,6 +54,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_14_model_default_id.rb",
      "test/ut_15_model_view_by_and.rb",
      "test/ut_16_model_custom_view.rb",
+     "test/ut_17_model_and_attachments.rb",
      "test/ut_1_model.rb",
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
