@@ -167,6 +167,9 @@ module Doric
         k = { key => func }
 
         instance_eval %{
+          def by_#{key} (val, opts={})
+            by(#{k.inspect}, val, opts)
+          end
           def #{key} (val, opts={})
             by(#{k.inspect}, val, opts)
           end

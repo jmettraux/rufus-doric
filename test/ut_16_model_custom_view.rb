@@ -70,6 +70,8 @@ class UtModelCustomViewTest < Test::Unit::TestCase
     assert_equal 1, Team.tysec('rifle__b').size
 
     assert_equal 2, Team.tysec2(%w[ rifle a ]).size
+
+    assert_equal 1, Team.by_tysec('rifle__b').size
   end
 end
 
