@@ -73,5 +73,16 @@ class UtModelViewTest < Test::Unit::TestCase
       Nada::Thing.by_colour('blue').size
     end
   end
+
+  def test_nuke_design_documents
+
+    assert_nil Nada::Thing.db.get('_design/doric_nada__thing')
+
+    assert_equal [], Nada::Thing.by_colour('blue')
+
+    Nada::Thing.db.nuke_design_documents
+
+    assert_nil Nada::Thing.db.get('_design/doric_nada__thing')
+  end
 end
 

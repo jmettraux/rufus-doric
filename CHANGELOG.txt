@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.11    not yet released
 
+- model.db.nuke_design_documents available
 - custom views x(key) and by_x(x) are both OK
 
 
