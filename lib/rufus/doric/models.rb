@@ -38,7 +38,6 @@ module Doric
 
   def self.escape (o)
 
-    #"%22#{o}%22"
     CGI.escape(Rufus::Json.encode(o))
   end
 
