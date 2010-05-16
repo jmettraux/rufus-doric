@@ -315,6 +315,8 @@ module Doric
       extname = File.extname(attname)
       attname = attachments.find { |a| a.match(/^#{attname}/) } if extname == ''
 
+      return nil if attname == nil
+
       db.get("#{@h['_id']}/#{attname}")
     end
 

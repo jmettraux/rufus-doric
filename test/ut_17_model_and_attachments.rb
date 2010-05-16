@@ -182,6 +182,16 @@ class UtModelAndAttachmentsTest < Test::Unit::TestCase
     assert_equal [ 'icon.txt' ], f.attachments
   end
 
+  def test_missing_attachment
+
+    f = Folder.new('name' => 'spring')
+    f.save!
+
+    f = Folder.find('spring')
+
+    assert_nil f.icon
+  end
+
   protected
 
   def path_to (local_item)
