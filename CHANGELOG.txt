@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.11    not yet released
+== rufus-doric - 0.1.11    released 2010/05/17
 
 - model : issue with nil attachments, fixed
 - model.db.nuke_design_documents available
