@@ -91,6 +91,13 @@ class UtModelAssociationsTest < Test::Unit::TestCase
   #def teardown
   #end
 
+  def test_region
+
+    c = Customer.find('fred')
+
+    assert_equal 'eu', c.region.name
+  end
+
   def test_customer
 
     o = Order.find('a')
