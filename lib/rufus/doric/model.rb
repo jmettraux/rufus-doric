@@ -514,9 +514,13 @@ module Doric
 
     def self.find (_id)
 
+      raise ArgumentError.new(
+        "id #{_id.inspect} is not a String") unless _id.is_a?(String)
+
       doc = db.get(_id)
 
-      raise Rufus::Doric::NotFound.new(@doric_type, _id) unless doc
+      raise Rufus::Doric::NotFound.new(
+        @doric_type, _id) unless doc
 
       self.new(doc)
     end

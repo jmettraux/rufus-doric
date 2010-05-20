@@ -187,5 +187,13 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_equal 'art', c.name
   end
+
+  def test_find_nil
+
+    assert_raise ArgumentError do
+
+      Thing.find(nil)
+    end
+  end
 end
 

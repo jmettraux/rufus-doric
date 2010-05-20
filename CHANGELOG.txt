@@ -4,6 +4,8 @@
 
 == rufus-doric - 0.1.12    not yet released
 
+- raising ArgumentError when find(x) and x is not a String
+
 
 == rufus-doric - 0.1.11    released 2010/05/17
 
