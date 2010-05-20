@@ -2,6 +2,9 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.13    not yet released
+
+
 == rufus-doric - 0.1.12    released 2010/05/20
 
 - implemented Model#save. Thanks Claudio !
