@@ -239,6 +239,10 @@ module Doric
       self.class.new(h)
     end
 
+    # Saves this record.
+    #
+    # An exception will get raised if it fails.
+    #
     def save!
 
       raise ActiveRecord::RecordInvalid.new(self) unless valid?
@@ -268,6 +272,18 @@ module Doric
       r = db.put(@h)
 
       raise(SaveFailed.new(self.class.doric_type, _id)) unless r.nil?
+    end
+
+    # Returns true in case of success, false else.
+    #
+    def save
+
+      begin
+        save!
+        true
+      rescue Exception => e
+        false
+      end
     end
 
     def attach (attname, data, opts={})

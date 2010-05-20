@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.12    not yet released
 
+- implemented Model#save. Thanks Claudio !
 - raising ArgumentError when find(x) and x is not a String
 
 

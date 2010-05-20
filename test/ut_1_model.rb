@@ -67,7 +67,7 @@ class UtModelTest < Test::Unit::TestCase
     assert_equal({}, Concept.defaults)
   end
 
-  def test_save
+  def test_save_bang
 
     Thing.new(
       'name' => 'toto'
@@ -75,6 +75,14 @@ class UtModelTest < Test::Unit::TestCase
 
     assert_equal 1, Thing.all.size
     assert_equal 'toto', Thing.all.first._id
+  end
+
+  def test_save
+
+    assert_equal true, Thing.new('name' => 'dvorka').save
+
+    assert_equal 1, Thing.all.size
+    assert_equal 'dvorka', Thing.all.first._id
   end
 
   def test_failing_save
@@ -88,6 +96,8 @@ class UtModelTest < Test::Unit::TestCase
         'name' => 'toto'
       ).save!
     end
+
+    assert_equal false, Thing.new('name' => 'toto').save
   end
 
   def test_missing_id_when_saving
