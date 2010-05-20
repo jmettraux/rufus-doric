@@ -500,7 +500,9 @@ module Doric
 
         return super unless self.respond_to?(id_method)
 
-        klass.find(self.send(id_method))
+        id = self.send(id_method)
+
+        id ? klass.find(id) : nil
       end
     end
 

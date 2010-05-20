@@ -98,6 +98,14 @@ class UtModelAssociationsTest < Test::Unit::TestCase
     assert_equal 'eu', c.region.name
   end
 
+  def test_nil_region_id
+
+    c = Customer.find('fred')
+    c.region_id = nil
+
+    assert_equal nil, c.region
+  end
+
   def test_customer
 
     o = Order.find('a')

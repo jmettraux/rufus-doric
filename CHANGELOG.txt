@@ -4,6 +4,8 @@
 
 == rufus-doric - 0.1.13    not yet released
 
+- fixed issue with model and missing association
+
 
 == rufus-doric - 0.1.12    released 2010/05/20
 
