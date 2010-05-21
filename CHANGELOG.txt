@@ -2,7 +2,7 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.13    not yet released
+== rufus-doric - 0.1.13    released 2010/05/21
 
 - fixed issue with model and missing association
 
