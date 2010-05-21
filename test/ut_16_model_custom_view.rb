@@ -27,6 +27,32 @@ class Team < Rufus::Doric::Model
   }
 end
 
+#class City < Rufus::Doric::Model
+#
+#  db :doric
+#  doric_type :cities
+#
+#  id_field :name
+#
+#  h_accessor :name
+#  h_accessor :sister
+#
+#  view_by 'sister', %{
+#    emit(doc.sister, null);
+#  }
+#end
+#
+#  def test_custom_properties_should_not_overwrite_properties
+#
+#    City.new('name' => 'Zurich', 'sister' => 'Kunming').save!
+#    City.new('name' => 'Yokohama', 'sister' => 'Vancouver').save!
+#    City.new('name' => 'Portland', 'sister' => 'Sapporo').save!
+#    City.new('name' => 'Nara', 'sister' => 'Toledo').save!
+#    City.new('name' => "Xi'an", 'sister' => 'Quebec').save!
+#  end
+  #
+  # keeping for a next round of testing
+
 
 class UtModelCustomViewTest < Test::Unit::TestCase
 
