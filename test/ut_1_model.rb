@@ -210,9 +210,9 @@ class UtModelTest < Test::Unit::TestCase
 
     Thing.new('name' => "Xi'an").save!
     assert_not_nil Thing.find("Xi'an")
-    Thing.all.each do |thing|
-      p thing
-    end
+    #Thing.all.each do |thing|
+    #  p thing
+    #end
   end
 end
 

@@ -160,11 +160,11 @@ module Doric
     #
     # The all method supports the same options.
     #
-    def self.view_by (key, func=nil)
+    def self.view_by (key, map=nil, reduce=nil)
 
-      if func
+      if map
 
-        k = { key => func }
+        k = { :view => key, :map => map, :reduce => reduce }
 
         instance_eval %{
           def by_#{key} (val, opts={})
@@ -581,13 +581,22 @@ module Doric
       "#{self.class.doric_type}__#{s}"
     end
 
-    def self.func (body)
-      %{
-        function (doc) {
-          if (doc.doric_type != '#{@doric_type}') return;
-          #{body}
+    def self.func (body, type=:map)
+
+      if type == :map
+        %{
+          function (doc) {
+            if (doc.doric_type != '#{@doric_type}') return;
+            #{body}
+          }
         }
-      }
+      else
+        %{
+          function (keys, values, rereduce) {
+            #{body}
+          }
+        }
+      end
     end
 
     def self.put_design_doc (key=nil)
@@ -626,9 +635,15 @@ module Doric
 
       elsif key.is_a?(Hash)
 
-        ddoc['views']["by_#{key.keys.first}"] = {
-          'map' => func(key.values.first)
-        }
+        h = {}
+
+        h['map'] = func(key[:map])
+
+        if red = key[:reduce]
+          h['reduce'] = func(red, :reduce)
+        end
+
+        ddoc['views']["by_#{key[:view]}"] = h
 
       elsif key.is_a?(Array)
 
@@ -697,7 +712,9 @@ module Doric
 
       #p [ key, val, opts ]
 
-      qs = [ 'include_docs=true' ]
+      reduce = key.is_a?(Hash) && key[:reduce]
+
+      qs = reduce ? [] : [ 'include_docs=true' ]
 
       if is_option_hash(val)
         opts = val
@@ -716,7 +733,7 @@ module Doric
 
       skey = case key
         when Array then key.join('_and_')
-        when Hash then key.keys.first
+        when Hash then key[:view]
         else key
       end
 
@@ -724,7 +741,14 @@ module Doric
 
       result = get_result(path, key)
 
-      result['rows'].collect { |r| self.new(r['doc']) }
+      row = result['rows']
+
+      if reduce
+        r = result['rows'].first
+        r ? r['value'] : nil
+      else
+        result['rows'].collect { |r| self.new(r['doc']) }
+      end
     end
 
     # Ensures the necessary design_doc is loaded (if first query failed)
