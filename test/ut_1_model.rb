@@ -205,5 +205,14 @@ class UtModelTest < Test::Unit::TestCase
       Thing.find(nil)
     end
   end
+
+  def test_various_ids
+
+    Thing.new('name' => "Xi'an").save!
+    assert_not_nil Thing.find("Xi'an")
+    Thing.all.each do |thing|
+      p thing
+    end
+  end
 end
 
