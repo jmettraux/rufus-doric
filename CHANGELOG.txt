@@ -2,7 +2,9 @@
 = rufus-doric CHANGELOG.txt
 
 
-== rufus-doric - 0.1.14    not yet released
+== rufus-doric - 0.1.14    released 2010/05/22
+
+- map and now, map and reduce (Model.view_by)
 
 
 == rufus-doric - 0.1.13    released 2010/05/21

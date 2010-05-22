@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["John Mettraux"]
-  s.date = %q{2010-05-21}
+  s.date = %q{2010-05-22}
   s.description = %q{
 something at the intersection of Rails3, CouchDB and rufus-jig
   }
@@ -55,6 +55,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_15_model_view_by_and.rb",
      "test/ut_16_model_custom_view.rb",
      "test/ut_17_model_and_attachments.rb",
+     "test/ut_18_model_map_reduce.rb",
      "test/ut_1_model.rb",
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
