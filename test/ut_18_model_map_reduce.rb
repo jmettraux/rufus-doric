@@ -57,6 +57,9 @@ class UtModelMapReduceTest < Test::Unit::TestCase
     assert_equal(
       [ 'president', 'prime minister', 'minister of war' ],
       Auth.roles(nil))
+    assert_equal(
+      [ 'president', 'prime minister', 'minister of war' ],
+      Auth.by_roles(nil))
   end
 end
 
