@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.15    not yet released
+
+- hardened Rufus::Doric.neutralize_id
+
+
 == rufus-doric - 0.1.14    released 2010/05/22
 
 - map and now, map and reduce (Model.view_by)

@@ -33,7 +33,7 @@ module Doric
 
   def self.neutralize_id (s)
 
-    s.to_s.strip.gsub(/[\.\s\/:;\*\\\+\?]/, '_')
+    s.to_s.strip.gsub(/[\.\s\/:;\*\\\+\?"]/, '_')
   end
 
   def self.escape (o)
