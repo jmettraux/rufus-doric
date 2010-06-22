@@ -20,6 +20,7 @@ class Handkerchief < Rufus::Doric::Model
   h_accessor :colour
   h_accessor :owner
 
+  view_by :colour
   view_by :owner, :ignore_case => true
 end
 
@@ -41,18 +42,37 @@ class UtModelViewTest < Test::Unit::TestCase
 
   def test_view_by_owner
 
+    load_data
+
+    assert_equal 1, Handkerchief.by_owner('pepe').size
+    assert_equal 2, Handkerchief.by_owner('jefe').size
+
+    assert_equal 0, Handkerchief.by_owner('Pepe').size
+    assert_equal 0, Handkerchief.by_owner('Jefe').size
+  end
+
+  def test_view_by_colour
+
+    load_data
+
+    assert_equal 1, Handkerchief.by_colour('brown').size
+    assert_equal 1, Handkerchief.by_colour('Brown').size
+    assert_equal 1, Handkerchief.by_colour('browN').size
+  end
+
+  protected
+
+  def load_data
+
     Handkerchief.new(
-      :brand => 'valentino', :colour => 'blue', :owner => 'Pepe'
+      :brand => 'valentino', :colour => 'browN', :owner => 'Pepe'
     ).save!
     Handkerchief.new(
       :brand => 'lv', :colour => 'brown', :owner => 'Jefe'
     ).save!
     Handkerchief.new(
-      :brand => 'chanel', :colour => 'b&w', :owner => 'jefe'
+      :brand => 'chanel', :colour => 'Brown', :owner => 'jefe'
     ).save!
-
-    assert_equal 1, Handkerchief.by_owner('pepe').size
-    assert_equal 2, Handkerchief.by_owner('jefe').size
   end
 end
 
