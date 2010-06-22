@@ -10,7 +10,7 @@ require 'rake'
 # CLEAN
 
 require 'rake/clean'
-CLEAN.include('pkg', 'tmp', 'html')
+CLEAN.include('pkg', 'tmp', 'html', 'rdoc')
 task :default => [ :clean ]
 
 
@@ -50,29 +50,40 @@ Jeweler::GemcutterTasks.new
 #
 # DOC
 
-begin
-  require 'yard'
-  YARD::Rake::YardocTask.new do |doc|
-    doc.options = [
-      '-o', 'html/rufus-doric', '--title',
-      "rufus-doric #{Rufus::Doric::VERSION}"
-    ]
-  end
-rescue LoadError
-  task :yard do
-    abort "YARD is not available : sudo gem install yard"
-  end
+#begin
+#  require 'yard'
+#  YARD::Rake::YardocTask.new do |doc|
+#    doc.options = [
+#      '-o', 'html/rufus-doric', '--title',
+#      "rufus-doric #{Rufus::Doric::VERSION}"
+#    ]
+#  end
+#rescue LoadError
+#  task :yard do
+#    abort "YARD is not available : sudo gem install yard"
+#  end
+#end
+
+#
+# make sure to have rdoc 2.5.x to run that
+#
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rd|
+  rd.main = 'README.rdoc'
+  rd.rdoc_dir = 'rdoc/rufus-doric'
+  rd.rdoc_files.include('README.rdoc', 'CHANGELOG.txt', 'lib/**/*.rb')
+  rd.title = "rufus-doric #{Rufus::Doric::VERSION}"
 end
 
 
 #
 # TO THE WEB
 
-task :upload_website => [ :clean, :yard ] do
+task :upload_website => [ :clean, :rdoc ] do
 
   account = 'jmettraux@rubyforge.org'
   webdir = '/var/www/gforge-projects/rufus'
 
-  sh "rsync -azv -e ssh html/rufus-doric #{account}:#{webdir}/"
+  sh "rsync -azv -e ssh rdoc/rufus-doric #{account}:#{webdir}/"
 end
 
