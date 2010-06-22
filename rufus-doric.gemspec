@@ -58,6 +58,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
      "test/ut_18_model_map_reduce.rb",
      "test/ut_19_neutralize_id.rb",
      "test/ut_1_model.rb",
+     "test/ut_20_model_view_by_ignore_case.rb",
      "test/ut_2_model_view.rb",
      "test/ut_3_model_lint.rb",
      "test/ut_4_one_doc_model.rb",

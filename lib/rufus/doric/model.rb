@@ -162,6 +162,13 @@ module Doric
     #
     def self.view_by (key, map=nil, reduce=nil)
 
+      ignore_case = false
+
+      if map && map.is_a?(Hash)
+        ignore_case = map[:ignore_case]
+        map = nil
+      end
+
       if map
 
         k = { :view => key, :map => map, :reduce => reduce }
@@ -181,6 +188,7 @@ module Doric
 
         instance_eval %{
           def by_#{skey} (val, opts={})
+            opts = opts.merge(:ignore_case => #{ignore_case})
             by(#{key.inspect}, val, opts)
           end
         }
@@ -560,7 +568,7 @@ module Doric
       path = "#{design_path}/_view/text_index"
       path = "#{path}?key=%22#{key}%22" if key
 
-      m = get_result(path, :text_index)
+      m = get_result(path, :text_index, {})
 
       m = m['rows'].inject({}) { |h, r| (h[r['key']] ||= []) << r['id']; h }
 
@@ -599,7 +607,7 @@ module Doric
       end
     end
 
-    def self.put_design_doc (key=nil)
+    def self.put_design_doc (key, opts)
 
       # the 'all' view
 
@@ -651,17 +659,17 @@ module Doric
         keys = key.collect { |k| "doc['#{k}']" }.join(', ')
 
         ddoc['views']["by_#{skey}"] = {
-          'map' => func(%{
-            emit([#{keys}], null);
-          })
+          'map' => func("emit([#{keys}], null);")
         }
 
       else
 
+        emit = opts[:ignore_case] ?
+          "emit(doc['#{key}'].toLowerCase(), null);" :
+          "emit(doc['#{key}'], null);"
+
         ddoc['views']["by_#{key}"] = {
-          'map' => func(%{
-            emit(doc['#{key}'], null);
-          })
+          'map' => func(emit)
         }
       end
 
@@ -692,7 +700,7 @@ module Doric
 
       path = "_design/doric/_view/by_doric_type?#{qs.join('&')}"
 
-      result = get_result(path)
+      result = get_result(path, nil, opts)
 
       result['rows'].collect { |r| r['doc'] }
     end
@@ -739,7 +747,7 @@ module Doric
 
       path = "#{design_path}/_view/by_#{skey}?#{qs.join('&')}"
 
-      result = get_result(path, key)
+      result = get_result(path, key, opts)
 
       row = result['rows']
 
@@ -757,7 +765,7 @@ module Doric
     # Will raise if the design_doc can't be inserted (probably the underlying
     # db is missing).
     #
-    def self.get_result (path, design_doc_key=nil)
+    def self.get_result (path, design_doc_key, opts)
 
       result = db.get(path)
 
@@ -765,7 +773,7 @@ module Doric
 
       # insert design doc
 
-      r = put_design_doc(design_doc_key)
+      r = put_design_doc(design_doc_key, opts)
 
       raise(
         "failed to insert 'any' design_doc in db '#{db.name}'"
@@ -773,7 +781,7 @@ module Doric
 
       # re-get
 
-      get_result(path, design_doc_key)
+      get_result(path, design_doc_key, opts)
     end
   end
 end

@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.15    not yet released
 
+- view_by :name, :ignore_case => true
 - hardened Rufus::Doric.neutralize_id
 
 
