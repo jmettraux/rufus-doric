@@ -1,3 +1,4 @@
+# encoding: utf-8
 
 #
 # testing rufus-doric
@@ -210,9 +211,9 @@ class UtModelTest < Test::Unit::TestCase
 
     Thing.new('name' => "Xi'an").save!
     assert_not_nil Thing.find("Xi'an")
-    #Thing.all.each do |thing|
-    #  p thing
-    #end
+
+    Thing.new('name' => '横浜').save!
+    assert_not_nil Thing.find('横浜')
   end
 end
 

@@ -8,6 +8,7 @@
 [o] eventually : pagination for the text index
 [o] view_by 'name', %{ emit(doc.nada) }
 [o] start and end key should be by_x(:start => a, :end => b)
+[o] credit Claudio
 
 [x] lsof check (jig / patron)
 
@@ -15,5 +16,5 @@
 
 [ ] view_by 'x', 'emit' ==> view 'x', 'emit' ==> Model.x(key)...
 
-[ ] credit Claudio !!
+[ ] case-insentive index (Claudio)
 

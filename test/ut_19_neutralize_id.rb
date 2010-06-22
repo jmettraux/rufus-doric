@@ -1,3 +1,4 @@
+# encoding: UTF-8
 
 #
 # testing rufus-doric
@@ -12,10 +13,15 @@ require 'rufus/doric'
 
 class UtNeutralizeTest < Test::Unit::TestCase
 
-  def test_neutralize_id
+  def test_quotes
 
     assert_equal "_hogehoge__foo", n('"hogehoge" foo')
     assert_equal "X'ian", n("X'ian")
+  end
+
+  def test_utf8
+
+    assert_equal "横浜", n("横浜")
   end
 
   protected
