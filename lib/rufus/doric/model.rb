@@ -486,81 +486,6 @@ module Doric
       super
     end
 
-    def open_method_missing (m, args)
-
-      return false unless self.class.instance_variable_get(:@open)
-
-      key = m.match(/^(.+)=$/)
-
-      if key && args.length == 1
-        @h[key[1]] = args.first
-        return [ true, args.first ]
-      end
-      if ( ! key) && args.length == 0
-        return [ true, @h[m] ]
-      end
-
-      false
-    end
-
-    def association_method_missing (m, args)
-
-      sm = m.singularize
-      multiple = (m != sm)
-
-      klass = sm.camelize
-      klass = (self.class.const_get(klass) rescue nil)
-
-      id_method = multiple ? "#{sm}_ids" : "#{m}_id"
-
-      unless klass
-
-        return false unless self.respond_to?(id_method)
-
-        i = self.send(id_method)
-
-        if multiple
-
-          return [ true, [] ] unless i
-
-          return [
-            true,
-            i.collect { |ii|
-              Rufus::Doric.instantiate(db.get(ii))
-            }.select { |e|
-              e != nil
-            }
-          ]
-        end
-
-        return [ true, Rufus::Doric.instantiate(db.get(i)) ]
-      end
-
-      if multiple
-
-        if self.respond_to?(id_method)
-
-          ids = self.send(id_method)
-
-          [ true, ids ? ids.collect { |i| klass.find(i) } : [] ]
-
-        else
-
-          by_method = "by_#{self.class.doric_type.singularize}_id"
-
-          [ true, klass.send(by_method, self._id) ]
-        end
-
-      else
-
-        return false unless self.respond_to?(id_method)
-
-        id = self.send(id_method)
-
-        [ true, id ? klass.find(id) : nil ]
-      end
-    end
-
     def hash
       h.hash
     end
@@ -634,6 +559,81 @@ module Doric
       ].join('_')
 
       "#{self.class.doric_type}__#{s}"
+    end
+
+    def open_method_missing (m, args)
+
+      return false unless self.class.instance_variable_get(:@open)
+
+      key = m.match(/^(.+)=$/)
+
+      if key && args.length == 1
+        @h[key[1]] = args.first
+        return [ true, args.first ]
+      end
+      if ( ! key) && args.length == 0
+        return [ true, @h[m] ]
+      end
+
+      false
+    end
+
+    def association_method_missing (m, args)
+
+      sm = m.singularize
+      multiple = (m != sm)
+
+      klass = sm.camelize
+      klass = (self.class.const_get(klass) rescue nil)
+
+      id_method = multiple ? "#{sm}_ids" : "#{m}_id"
+
+      unless klass
+
+        return false unless self.respond_to?(id_method)
+
+        i = self.send(id_method)
+
+        if multiple
+
+          return [ true, [] ] unless i
+
+          return [
+            true,
+            i.collect { |ii|
+              Rufus::Doric.instantiate(db.get(ii))
+            }.select { |e|
+              e != nil
+            }
+          ]
+        end
+
+        return [ true, Rufus::Doric.instantiate(db.get(i)) ]
+      end
+
+      if multiple
+
+        if self.respond_to?(id_method)
+
+          ids = self.send(id_method)
+
+          [ true, ids ? ids.collect { |i| klass.find(i) } : [] ]
+
+        else
+
+          by_method = "by_#{self.class.doric_type.singularize}_id"
+
+          [ true, klass.send(by_method, self._id) ]
+        end
+
+      else
+
+        return false unless self.respond_to?(id_method)
+
+        id = self.send(id_method)
+
+        [ true, id ? klass.find(id) : nil ]
+      end
     end
 
     def self.func (body, type=:map)
