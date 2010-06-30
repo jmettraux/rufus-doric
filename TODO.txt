@@ -10,6 +10,7 @@
 [o] start and end key should be by_x(:start => a, :end => b)
 [o] credit Claudio
 [o] case-insentive index (Claudio)
+[o] open model
 
 [x] lsof check (jig / patron)
 
@@ -20,5 +21,5 @@
 
 [ ] custom views : remove duplicate docs from results (Claudio)
 
-[ ] open model
+[ ] open models, OK, what about on-the-fly views ?
 

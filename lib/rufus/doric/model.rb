@@ -105,6 +105,13 @@ module Doric
       @_id_field
     end
 
+    # Flags a model as "open". New properties can be added on the fly.
+    #
+    def self.open
+
+      @open = true
+    end
+
     def self.attachment (attachment_name)
 
       class_eval %{
@@ -351,6 +358,18 @@ module Doric
       db.delete("#{@h['_id']}/#{attname}?rev=#{@h['_rev']}")
     end
 
+    # If this model is open, will remove a property (key and value).
+    # If the model is not open, will raise an error.
+    #
+    def remove (key)
+
+      raise(
+        "model #{self.class.name} is not open, cannot remove properties"
+      ) unless self.class.instance_variable_get(:@open)
+
+      @h.delete(key.to_s)
+    end
+
     #--
     # methods required by ActiveModel (see test/unit/ut_3_model_lint.rb)
     #++
@@ -454,39 +473,67 @@ module Doric
       result['rows'].collect { |r| Rufus::Doric.instantiate(r['doc']) }
     end
 
-    # All the association magic occur here, except for #belongings
+    # The association and the 'open' magic occurs here, except for #belongings
     #
     def method_missing (m, *args)
 
-      mm = m.to_s
-      sm = mm.singularize
-      multiple = (mm != sm)
+      success, result = open_method_missing(m.to_s, args)
+      return result if success
+
+      success, result = association_method_missing(m.to_s, args)
+      return result if success
+
+      super
+    end
+
+    def open_method_missing (m, args)
+
+      return false unless self.class.instance_variable_get(:@open)
+
+      key = m.match(/^(.+)=$/)
+
+      if key && args.length == 1
+        @h[key[1]] = args.first
+        return [ true, args.first ]
+      end
+      if ( ! key) && args.length == 0
+        return [ true, @h[m] ]
+      end
+
+      false
+    end
+
+    def association_method_missing (m, args)
+
+      sm = m.singularize
+      multiple = (m != sm)
 
       klass = sm.camelize
       klass = (self.class.const_get(klass) rescue nil)
 
-      #return super unless klass
-
-      id_method = multiple ? "#{sm}_ids" : "#{mm}_id"
+      id_method = multiple ? "#{sm}_ids" : "#{m}_id"
 
       unless klass
 
-        return super unless self.respond_to?(id_method)
+        return false unless self.respond_to?(id_method)
 
         i = self.send(id_method)
 
         if multiple
 
-          return [] unless i
+          return [ true, [] ] unless i
 
-          return i.collect { |ii|
-            Rufus::Doric.instantiate(db.get(ii))
-          }.select { |e|
-            e != nil
-          }
+          return [
+            true,
+            i.collect { |ii|
+              Rufus::Doric.instantiate(db.get(ii))
+            }.select { |e|
+              e != nil
+            }
+          ]
         end
 
-        return Rufus::Doric.instantiate(db.get(i))
+        return [ true, Rufus::Doric.instantiate(db.get(i)) ]
       end
 
       if multiple
@@ -494,23 +541,23 @@ module Doric
         if self.respond_to?(id_method)
 
           ids = self.send(id_method)
-          return [] unless ids
 
-          ids.collect { |i| klass.find(i) }
+          [ true, ids ? ids.collect { |i| klass.find(i) } : [] ]
 
         else
 
           by_method = "by_#{self.class.doric_type.singularize}_id"
-          klass.send(by_method, self._id)
+
+          [ true, klass.send(by_method, self._id) ]
         end
 
       else
 
-        return super unless self.respond_to?(id_method)
+        return false unless self.respond_to?(id_method)
 
         id = self.send(id_method)
 
-        id ? klass.find(id) : nil
+        [ true, id ? klass.find(id) : nil ]
       end
     end
 

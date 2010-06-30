@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.16    not yet released
+
+- 'open' models
+
+
 == rufus-doric - 0.1.15    released 2010/06/22
 
 - view_by :name, :ignore_case => true
