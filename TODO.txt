@@ -9,12 +9,16 @@
 [o] view_by 'name', %{ emit(doc.nada) }
 [o] start and end key should be by_x(:start => a, :end => b)
 [o] credit Claudio
+[o] case-insentive index (Claudio)
 
 [x] lsof check (jig / patron)
 
 [ ] eventually : cache the text index
 
 [ ] view_by 'x', 'emit' ==> view 'x', 'emit' ==> Model.x(key)...
+[ ] view_by 'x', :condition => '{some javascript}' (a la SimplyStored)
 
-[ ] case-insentive index (Claudio)
+[ ] custom views : remove duplicate docs from results (Claudio)
+
+[ ] open model
 
