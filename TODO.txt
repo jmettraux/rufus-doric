@@ -11,6 +11,7 @@
 [o] credit Claudio
 [o] case-insentive index (Claudio)
 [o] open model
+[o] custom views : remove duplicate docs from results (Claudio)
 
 [x] lsof check (jig / patron)
 
@@ -19,7 +20,10 @@
 [ ] view_by 'x', 'emit' ==> view 'x', 'emit' ==> Model.x(key)...
 [ ] view_by 'x', :condition => '{some javascript}' (a la SimplyStored)
 
-[ ] custom views : remove duplicate docs from results (Claudio)
-
 [ ] open models, OK, what about on-the-fly views ?
+    do you really need views for those ?
+
+[ ] internal _sum, _count and _stats
+    http://www.mikealrogers.com/archives/785
+    http://wiki.apache.org/couchdb/Built-In_Reduce_Functions
 

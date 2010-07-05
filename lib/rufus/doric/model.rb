@@ -802,7 +802,7 @@ module Doric
         r = result['rows'].first
         r ? r['value'] : nil
       else
-        result['rows'].collect { |r| self.new(r['doc']) }
+        result['rows'].collect { |r| self.new(r['doc']) }.uniq
       end
     end
 

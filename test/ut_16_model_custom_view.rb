@@ -25,6 +25,11 @@ class Team < Rufus::Doric::Model
   view 'tysec2', %{
     emit([ doc.type, doc.security_level ], null);
   }
+
+  view 'duplicates', %{
+    emit(doc.type, null);
+    emit(doc.type, null);
+  }
 end
 
 #class City < Rufus::Doric::Model
@@ -98,6 +103,16 @@ class UtModelCustomViewTest < Test::Unit::TestCase
     assert_equal 2, Team.tysec2(%w[ rifle a ]).size
 
     assert_equal 1, Team.by_tysec('rifle__b').size
+  end
+
+  def test_remove_duplicates
+
+    Team.new(
+      'type' => 'cleaning',
+      'security_level' => 'b'
+    ).save!
+
+    assert_equal 1, Team.duplicates('cleaning').size
   end
 end
 
