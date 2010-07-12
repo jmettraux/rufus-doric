@@ -94,6 +94,18 @@ module Doric
       delete
     end
 
+    # Given a model named User, some usage examples :
+    #
+    #   u = User.find('john')
+    #   u.attach(File.read('avatar.png', :content_type => 'image/png'
+    #   u.attach([ File.read('avatar.png', 'image/png' ])
+    #
+    def attach (data, opts={})
+
+      #def do_attach (doc, attname, data, opts={})
+      do_attach(db.get(self.class.doc_id), _id, data, opts)
+    end
+
     #--
     # class methods
     #++

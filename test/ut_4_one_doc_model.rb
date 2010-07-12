@@ -94,9 +94,15 @@ class UtOneDocModelTest < Test::Unit::TestCase
     assert_equal [], User.all
   end
 
-#  def test_missing_db_declaration
-#
-#    Site.new(:name => 'Eur', :streets => [:one, :two, :three]).save!
-#  end
+  def test_attach
+
+    u = User.find('john')
+    u.attach(File.read(__FILE__), :content_type => 'text/plain')
+
+    assert_match /justin/, u.db.get('users/john.txt')
+
+    u = User.find('john')
+    assert_equal 'john.txt', u.attachment
+  end
 end
 

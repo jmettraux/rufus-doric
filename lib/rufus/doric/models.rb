@@ -126,6 +126,42 @@ module Doric
 
       self.class.db
     end
+
+    protected
+
+    def do_attach (doc, attname, data, opts={})
+
+      extname = File.extname(attname)
+      basename = File.basename(attname, extname)
+      mime = ::MIME::Types.type_for(attname).first
+
+      if data.is_a?(File)
+        mime = ::MIME::Types.type_for(data.path).first
+        data = data.read
+      elsif data.is_a?(Array)
+        data, mime = data
+        mime = ::MIME::Types[mime].first
+      end
+
+      mime ||= (::MIME::Types[opts[:content_type]] || []).first
+
+      raise ArgumentError.new("couldn't determine mime type") unless mime
+
+      attname = "#{attname}.#{mime.extensions.first}" if extname == ''
+
+      if doc['_rev'] # document has already been saved
+
+        db.attach(
+          doc['_id'], doc['_rev'], attname, data, :content_type => mime.to_s)
+
+      else # document hasn't yet been saved, inline attachment...
+
+        (doc['_attachments'] ||= {})[attname] = {
+          'content_type' => mime.to_s,
+          'data' => Base64.encode64(data).gsub(/[\r\n]/, '')
+        }
+      end
+    end
   end
 
   #--

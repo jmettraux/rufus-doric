@@ -301,36 +301,16 @@ module Doric
       end
     end
 
+    # Attaches a document to this model.
+    #
+    #   o.attach('icon.jpg', File.read('path/to/file.jpg'))
+    #
+    # No need to save! after an attachment, but the model/instance has to be
+    # up to date (ie, latest _rev).
+    #
     def attach (attname, data, opts={})
 
-      extname = File.extname(attname)
-      basename = File.basename(attname, extname)
-      mime = ::MIME::Types.type_for(attname).first
-
-      if data.is_a?(File)
-        mime = ::MIME::Types.type_for(data.path).first
-        data = data.read
-      elsif data.is_a?(Array)
-        data, mime = data
-        mime = ::MIME::Types[mime].first
-      end
-
-      raise ArgumentError.new("couldn't determine mime type") unless mime
-
-      attname = "#{attname}.#{mime.extensions.first}" if extname == ''
-
-      if @h['_rev'] # document has already been saved
-
-        db.attach(
-          @h['_id'], @h['_rev'], attname, data, :content_type => mime.to_s)
-
-      else # document hasn't yet been saved, inline attachment...
-
-        (@h['_attachments'] ||= {})[attname] = {
-          'content_type' => mime.to_s,
-          'data' => Base64.encode64(data).gsub(/[\r\n]/, '')
-        }
-      end
+      do_attach(@h, attname, data, opts)
     end
 
     # Reads an attachment
@@ -351,6 +331,8 @@ module Doric
       db.get("#{@h['_id']}/#{attname}")
     end
 
+    # Removes an attachment.
+    #
     def detach (attname)
 
       raise ArgumentError.new("model not yet saved") unless @h['_rev']
