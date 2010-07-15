@@ -2,6 +2,11 @@
 = rufus-doric CHANGELOG.txt
 
 
+== rufus-doric - 0.1.17    not yet released
+
+- view with a reduce returns [] instead of nil when no values
+
+
 == rufus-doric - 0.1.16    released 2010/07/12
 
 - OneDocModel#attach

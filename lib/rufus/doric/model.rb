@@ -782,7 +782,7 @@ module Doric
 
       if reduce
         r = result['rows'].first
-        r ? r['value'] : nil
+        r ? r['value'] : []
       else
         result['rows'].collect { |r| self.new(r['doc']) }.uniq
       end

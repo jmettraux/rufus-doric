@@ -61,5 +61,10 @@ class UtModelMapReduceTest < Test::Unit::TestCase
       [ 'president', 'prime minister', 'minister of war' ],
       Auth.by_roles(nil))
   end
+
+  def test_when_empty
+
+    assert_equal [], Auth.roles(nil)
+  end
 end
 
