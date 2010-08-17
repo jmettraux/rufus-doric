@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.17    not yet released
 
+- more efficient neutralize(would_be_id) method
 - view with a reduce returns [] instead of nil when no values
 
 

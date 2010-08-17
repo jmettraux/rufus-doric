@@ -24,6 +24,12 @@ class UtNeutralizeTest < Test::Unit::TestCase
     assert_equal "横浜", n("横浜")
   end
 
+  def test_common_pitfalls
+
+    assert_equal 'project__3', n('project #3')
+    assert_equal 'project__3_a_b_c', n('project #3?a&b=c')
+  end
+
   protected
 
   def n (s)
