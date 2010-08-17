@@ -211,7 +211,6 @@ module Doric
       end
     end
   end
-
 end
 end
 

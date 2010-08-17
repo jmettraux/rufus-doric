@@ -39,7 +39,6 @@ something at the intersection of Rails3, CouchDB and rufus-jig
   gem.add_dependency 'rufus-jig', '>= 0.1.20'
   gem.add_dependency 'mime-types', '>= 1.16'
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'yard'
   gem.add_development_dependency 'jeweler'
 
   # gemspec spec : http://www.rubygems.org/read/chapter/20
@@ -49,20 +48,6 @@ Jeweler::GemcutterTasks.new
 
 #
 # DOC
-
-#begin
-#  require 'yard'
-#  YARD::Rake::YardocTask.new do |doc|
-#    doc.options = [
-#      '-o', 'html/rufus-doric', '--title',
-#      "rufus-doric #{Rufus::Doric::VERSION}"
-#    ]
-#  end
-#rescue LoadError
-#  task :yard do
-#    abort "YARD is not available : sudo gem install yard"
-#  end
-#end
 
 #
 # make sure to have rdoc 2.5.x to run that

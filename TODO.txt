@@ -29,3 +29,5 @@
 
 [ ] JOINs http://blog.couch.io/post/446015664/whats-new-in-apache-couchdb-0-11-part-two-views
 
+[ ] finder... defauld id { type.singularize + '_' + name }...
+
