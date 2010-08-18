@@ -215,5 +215,14 @@ class UtModelTest < Test::Unit::TestCase
     Thing.new('name' => '横浜').save!
     assert_not_nil Thing.find('横浜')
   end
+
+  def test_all_and_count
+
+    Thing.new('name' => "Xi'anTse").save!
+    Thing.new('name' => "Xi'anTseu").save!
+
+    assert_equal 2, Thing.all.size
+    assert_equal 2, Thing.count
+  end
 end
 

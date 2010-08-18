@@ -734,6 +734,17 @@ module Doric
       result['rows'].collect { |r| r['doc'] }
     end
 
+    # Returns the count of all the elements.
+    #
+    def self.count
+
+      get_result(
+        "_design/doric/_view/by_doric_type?key=%22#{@doric_type}%22",
+        nil,
+        {}
+      )['rows'].size
+    end
+
     # A helper method for .by
     #
     def self.is_option_hash (h)
