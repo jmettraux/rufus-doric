@@ -36,7 +36,7 @@ something at the intersection of Rails3, CouchDB and rufus-jig
   gem.test_file = 'test/test.rb'
 
   gem.add_dependency 'activerecord', '~> 3.0.0'
-  gem.add_dependency 'rufus-jig', '>= 0.1.22'
+  gem.add_dependency 'rufus-jig', '>= 0.1.23'
   gem.add_dependency 'mime-types', '>= 1.16'
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'jeweler'
