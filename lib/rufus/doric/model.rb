@@ -760,6 +760,8 @@ module Doric
 
       #p [ key, val, opts ]
 
+      raw = opts.delete(:raw)
+
       reduce = key.is_a?(Hash) && key[:reduce]
 
       qs = reduce ? [] : [ 'include_docs=true' ]
@@ -789,13 +791,14 @@ module Doric
 
       result = get_result(path, key, opts)
 
-      row = result['rows']
+      rows = result['rows']
+
+      return rows if raw
 
       if reduce
-        r = result['rows'].first
-        r ? r['value'] : []
+        rows.first ? rows.first['value'] : []
       else
-        result['rows'].collect { |r| self.new(r['doc']) }.uniq
+        rows.collect { |r| self.new(r['doc']) }.uniq
       end
     end
 

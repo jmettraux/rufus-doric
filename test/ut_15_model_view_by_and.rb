@@ -33,12 +33,6 @@ class UtModelViewByAndTest < Test::Unit::TestCase
     Rufus::Doric.db('doric').http.cache.clear
       # CouchDB feeds the same etags for views, even after a db has
       # been deleted and put back, so have to do that 'forgetting'
-  end
-
-  #def teardown
-  #end
-
-  def test_view_by_and
 
     Squad.new(
       'type' => 'rifle',
@@ -56,9 +50,27 @@ class UtModelViewByAndTest < Test::Unit::TestCase
       'type' => 'artillery',
       'ranking' => 'first'
     ).save!
+  end
+
+  #def teardown
+  #end
+
+  def test_view_by_and
 
     assert_equal 2, Squad.by_type_and_ranking([ 'rifle', 'first' ]).size
     assert_equal 3, Squad.by_ranking('first').size
+  end
+
+  def test_view_raw
+
+    br = Squad.by_ranking('first', :raw => true)
+    btar = Squad.by_type_and_ranking([ 'rifle', 'first' ], :raw => true)
+
+    assert_equal 3, br.size
+    assert_equal Hash, br.first.class
+    assert_equal %w[ doc id key value ], br.first.keys.sort
+
+    assert_equal 2, btar.size
   end
 end
 
