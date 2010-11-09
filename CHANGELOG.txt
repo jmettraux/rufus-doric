@@ -4,6 +4,7 @@
 
 == rufus-doric - 0.1.18    not yet released
 
+- made sure to do a deep clone of model default values. Thanks Claudio.
 - views : :raw => true option
 - pointing to rufus-jig 0.1.23
 

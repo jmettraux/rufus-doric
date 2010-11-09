@@ -186,7 +186,7 @@ will load the documents (and their attachements) into http://127.0.0.1:5984/dori
 
 == credits
 
-Claudio Petasecca Donati - for his help about attachments
+Claudio Petasecca Donati - for all his help.
 
 
 == license

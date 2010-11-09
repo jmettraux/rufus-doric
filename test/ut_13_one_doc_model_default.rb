@@ -18,6 +18,7 @@ class Place < Rufus::Doric::OneDocModel
   h_accessor :name
   h_accessor :zip
   h_accessor :country, :default => 'UK'
+  h_accessor :neighbours, :default => []
 end
 
 
@@ -32,7 +33,9 @@ class UtOneDocModelDefaultTest < Test::Unit::TestCase
 
   def test_defaults
 
-    assert_equal({ 'country' => 'UK' }, Place.defaults)
+    assert_equal(
+      { 'country' => 'UK', 'neighbours' => [] },
+      Place.defaults)
   end
 
   def test_default
@@ -42,6 +45,16 @@ class UtOneDocModelDefaultTest < Test::Unit::TestCase
 
     assert_equal 'UK', london.country
     assert_equal 'Germany', berlin.country
+  end
+
+  def test_default_is_not_shared_among_all_instances
+
+    tokyo = Place.new(:name => 'Tokyo')
+    hiroshima = Place.new(:name => 'Hiroshima')
+
+    tokyo.neighbours << 'Yokohama'
+
+    assert_equal [], hiroshima.neighbours
   end
 end
 

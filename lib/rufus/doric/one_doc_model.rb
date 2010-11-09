@@ -54,7 +54,9 @@ module Doric
 
     def initialize (h, doc=nil)
 
-      @h = h.inject(self.class.defaults.dup) { |hh, (k, v)| hh[k.to_s] = v; hh }
+      @h = h.inject(Rufus::Json.dup(self.class.defaults)) { |hh, (k, v)|
+        hh[k.to_s] = v; hh
+      }
 
       if doc && atts = doc['_attachments']
 
