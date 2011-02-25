@@ -34,13 +34,13 @@ module Doric
     #
     # class 'helpers'
 
-    def self.doc_id (_id=nil)
+    def self.doc_id(_id=nil)
 
       @doc_id = _id.to_s if _id
       @doc_id
     end
 
-    def self.h_shortcut (*keys)
+    def self.h_shortcut(*keys)
       keys.each do |k|
         self.instance_eval %{
           def #{k}
@@ -57,7 +57,7 @@ module Doric
 
     attr_reader :h
 
-    def initialize (h)
+    def initialize(h)
 
       @h = h.inject({}) { |hh, (k, v)| hh[k.to_s] = v; hh }
     end
@@ -88,7 +88,7 @@ module Doric
 
     protected
 
-    def self.do_get (doc_id)
+    def self.do_get(doc_id)
 
       db.get(doc_id) ||  { '_id' => doc_id, 'value' => nil }
     end

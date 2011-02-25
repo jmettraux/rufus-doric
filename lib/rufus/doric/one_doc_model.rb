@@ -37,7 +37,7 @@ module Doric
     #
     # class 'helpers'
 
-    def self.doc_id (_id=nil)
+    def self.doc_id(_id=nil)
 
       @doc_id = _id.to_s if _id
       @doc_id
@@ -52,7 +52,7 @@ module Doric
     attr_reader :h
     attr_reader :attachment
 
-    def initialize (h, doc=nil)
+    def initialize(h, doc=nil)
 
       @h = h.inject(Rufus::Json.dup(self.class.defaults)) { |hh, (k, v)|
         hh[k.to_s] = v; hh
@@ -102,9 +102,9 @@ module Doric
     #   u.attach(File.read('avatar.png', :content_type => 'image/png'
     #   u.attach([ File.read('avatar.png', 'image/png' ])
     #
-    def attach (data, opts={})
+    def attach(data, opts={})
 
-      #def do_attach (doc, attname, data, opts={})
+      #def do_attach(doc, attname, data, opts={})
       do_attach(db.get(self.class.doc_id), _id, data, opts)
     end
 
@@ -112,7 +112,7 @@ module Doric
     # class methods
     #++
 
-    def self.create! (h)
+    def self.create!(h)
 
       self.new(h).save!
     end
@@ -130,7 +130,7 @@ module Doric
       db.delete(doc) if doc
     end
 
-    def self.find (_id)
+    def self.find(_id)
 
       doc = do_get(@doc_id)
 
@@ -166,7 +166,7 @@ module Doric
 
     protected
 
-    def self.do_get (doc_id)
+    def self.do_get(doc_id)
 
       db.get(doc_id) ||  { '_id' => doc_id, doc_id => {} }
     end

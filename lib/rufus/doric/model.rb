@@ -71,7 +71,7 @@ module Doric
   # return an instance of a Rufus::Doric::Model or nil if there is
   # no model defined for that doric_type
   #
-  def self.instantiate (doc)
+  def self.instantiate(doc)
 
     (types[doc['doric_type']].new(doc) rescue nil)
   end
@@ -87,7 +87,7 @@ module Doric
     #
     # class 'helpers'
 
-    def self.doric_type (rt=nil)
+    def self.doric_type(rt=nil)
 
       if rt
         @doric_type = rt.to_s
@@ -97,7 +97,7 @@ module Doric
       @doric_type
     end
 
-    def self._id_field (field_name=nil, &block)
+    def self._id_field(field_name=nil, &block)
 
       @_id_field = field_name.to_s if field_name
       @_id_field = block if block
@@ -112,13 +112,13 @@ module Doric
       @open = true
     end
 
-    def self.attachment (attachment_name)
+    def self.attachment(attachment_name)
 
       class_eval %{
         def #{attachment_name}
           read('#{attachment_name}')
         end
-        def #{attachment_name}= (data, opts={})
+        def #{attachment_name}=(data, opts={})
           attach('#{attachment_name}', data, opts)
         end
       }
@@ -167,7 +167,7 @@ module Doric
     #
     # The all method supports the same options.
     #
-    def self.view_by (key, map=nil, reduce=nil)
+    def self.view_by(key, map=nil, reduce=nil)
 
       ignore_case = false
 
@@ -181,10 +181,10 @@ module Doric
         k = { :view => key, :map => map, :reduce => reduce }
 
         instance_eval %{
-          def by_#{key} (val, opts={})
+          def by_#{key}(val, opts={})
             by(#{k.inspect}, val, opts)
           end
-          def #{key} (val, opts={})
+          def #{key}(val, opts={})
             by(#{k.inspect}, val, opts)
           end
         }
@@ -194,7 +194,7 @@ module Doric
         skey = key.is_a?(Array) ? key.join('_and_') : key
 
         instance_eval %{
-          def by_#{skey} (val, opts={})
+          def by_#{skey}(val, opts={})
             opts = opts.merge(:ignore_case => #{ignore_case})
             by(#{key.inspect}, val, opts)
           end
@@ -204,12 +204,12 @@ module Doric
 
     # Shorter than view_by.
     #
-    def self.view (key, func=nil)
+    def self.view(key, func=nil)
 
       view_by(key, func)
     end
 
-    def self.text_index (*keys)
+    def self.text_index(*keys)
 
       @text_index = keys
     end
@@ -223,7 +223,7 @@ module Doric
 
     attr_reader :h
 
-    def initialize (doc={})
+    def initialize(doc={})
 
       @h = doc.inject(Rufus::Json.dup(self.class.defaults)) { |h, (k, v)|
         h[k.to_s] = v; h
@@ -310,7 +310,7 @@ module Doric
     # No need to save! after an attachment, but the model/instance has to be
     # up to date (ie, latest _rev).
     #
-    def attach (attname, data, opts={})
+    def attach(attname, data, opts={})
 
       do_attach(@h, attname, data, opts)
     end
@@ -321,7 +321,7 @@ module Doric
     #   model.read('user_picture.jpg')
     #   model.read(:user_picture)
     #
-    def read (attname)
+    def read(attname)
 
       attname = attname.to_s
 
@@ -335,7 +335,7 @@ module Doric
 
     # Removes an attachment.
     #
-    def detach (attname)
+    def detach(attname)
 
       raise ArgumentError.new("model not yet saved") unless @h['_rev']
 
@@ -345,7 +345,7 @@ module Doric
     # If this model is open, will remove a property (key and value).
     # If the model is not open, will raise an error.
     #
-    def remove (key)
+    def remove(key)
 
       raise(
         "model #{self.class.name} is not open, cannot remove properties"
@@ -459,7 +459,7 @@ module Doric
 
     # The association and the 'open' magic occurs here, except for #belongings
     #
-    def method_missing (m, *args)
+    def method_missing(m, *args)
 
       success, result = open_method_missing(m.to_s, args)
       return result if success
@@ -474,7 +474,7 @@ module Doric
       h.hash
     end
 
-    def == (other)
+    def ==(other)
       return false unless other.class == self.class
       (h == other.h)
     end
@@ -489,12 +489,12 @@ module Doric
       get_all({}).each { |d| db.delete(d) }
     end
 
-    def self.all (opts={})
+    def self.all(opts={})
 
       get_all(opts).collect { |d| self.new(d) }
     end
 
-    def self.find (_id)
+    def self.find(_id)
 
       raise ArgumentError.new(
         "id #{_id.inspect} is not a String") unless _id.is_a?(String)
@@ -517,7 +517,7 @@ module Doric
 
     # Well... Returns a map { 'word' => [ docid0, docid1 ] }
     #
-    def self.texts (key=nil)
+    def self.texts(key=nil)
 
       return nil unless @text_index
 
@@ -545,7 +545,7 @@ module Doric
       "#{self.class.doric_type}__#{s}"
     end
 
-    def open_method_missing (m, args)
+    def open_method_missing(m, args)
 
       return false unless self.class.instance_variable_get(:@open)
 
@@ -562,7 +562,7 @@ module Doric
       false
     end
 
-    def association_method_missing (m, args)
+    def association_method_missing(m, args)
 
       sm = m.singularize
       multiple = (m != sm)
@@ -620,7 +620,7 @@ module Doric
       end
     end
 
-    def self.func (body, type=:map)
+    def self.func(body, type=:map)
 
       if type == :map
         %{
@@ -638,7 +638,7 @@ module Doric
       end
     end
 
-    def self.put_design_doc (key, opts)
+    def self.put_design_doc(key, opts)
 
       # the 'all' view
 
@@ -707,7 +707,7 @@ module Doric
       db.put(ddoc)
     end
 
-    def self.add_common_options (qs, opts)
+    def self.add_common_options(qs, opts)
 
       if limit = opts[:limit]
         qs << "limit=#{limit}"
@@ -723,7 +723,7 @@ module Doric
       end
     end
 
-    def self.get_all (opts)
+    def self.get_all(opts)
 
       qs = [ 'include_docs=true', "key=%22#{@doric_type}%22" ]
 
@@ -749,7 +749,7 @@ module Doric
 
     # A helper method for .by
     #
-    def self.is_option_hash (h)
+    def self.is_option_hash(h)
 
       return false unless h.is_a?(Hash)
       h.keys.each { |k| return false unless k.is_a?(Symbol) }
@@ -758,7 +758,7 @@ module Doric
 
     # view_by uses this .by method in the background
     #
-    def self.by (key, val, opts={})
+    def self.by(key, val, opts={})
 
       #p [ key, val, opts ]
 
@@ -810,7 +810,7 @@ module Doric
     # Will raise if the design_doc can't be inserted (probably the underlying
     # db is missing).
     #
-    def self.get_result (path, design_doc_key, opts)
+    def self.get_result(path, design_doc_key, opts)
 
       result = db.get(path)
 

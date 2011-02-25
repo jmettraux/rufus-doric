@@ -46,7 +46,7 @@ module Doric
     Rufus::Jig::Couch.new(couch_url)
   end
 
-  def self.db (name, opts={})
+  def self.db(name, opts={})
 
     env = opts[:env]
     env ||= Rails.env if defined?(Rails)

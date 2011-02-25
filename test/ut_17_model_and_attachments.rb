@@ -194,7 +194,7 @@ class UtModelAndAttachmentsTest < Test::Unit::TestCase
 
   protected
 
-  def path_to (local_item)
+  def path_to(local_item)
 
     File.join(File.dirname(__FILE__), local_item)
   end

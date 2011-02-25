@@ -105,7 +105,7 @@ module Doric
     #     .reading test/fixtures/test/doric/users__john.jpg
     #      .inserting at http://127.0.0.1:5984/doric_test/users/john.jpg
     #
-    def self.load (couch_uri, path, opts={})
+    def self.load(couch_uri, path, opts={})
 
       env = opts[:env] || File.split(path).last
       verbose = opts[:verbose]

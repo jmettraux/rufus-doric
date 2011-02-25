@@ -31,12 +31,12 @@ require 'active_record'
 module Rufus
 module Doric
 
-  def self.neutralize_id (s)
+  def self.neutralize_id(s)
 
     s.to_s.strip.gsub(/[\.\s\/:;\*\\\+\?"#=&]/, '_')
   end
 
-  def self.escape (o)
+  def self.escape(o)
 
     CGI.escape(Rufus::Json.encode(o))
   end
@@ -47,7 +47,7 @@ module Doric
   #
   module WithH
 
-    def self.included (target)
+    def self.included(target)
 
       def target.defaults
 
@@ -59,7 +59,7 @@ module Doric
         @known_fields
       end
 
-      def target.h_reader (*names)
+      def target.h_reader(*names)
 
         names.each do |name|
 
@@ -73,7 +73,7 @@ module Doric
         end
       end
 
-      def target.h_accessor (*names)
+      def target.h_accessor(*names)
 
         default = nil
 
@@ -96,7 +96,7 @@ module Doric
         end
       end
 
-      def target.property (*names)
+      def target.property(*names)
 
         h_accessor(*names)
       end
@@ -108,9 +108,9 @@ module Doric
   #
   module WithDb
 
-    def self.included (target)
+    def self.included(target)
 
-      def target.db (dbname=nil, opts=nil)
+      def target.db(dbname=nil, opts=nil)
 
         if dbname
           @db = dbname.to_s
@@ -129,7 +129,7 @@ module Doric
 
     protected
 
-    def do_attach (doc, attname, data, opts={})
+    def do_attach(doc, attname, data, opts={})
 
       extname = File.extname(attname)
       basename = File.basename(attname, extname)
@@ -174,7 +174,7 @@ module Doric
 
     attr_accessor :model_class, :_id
 
-    def initialize (model_class, _id)
+    def initialize(model_class, _id)
       @model_class = model_class
       @_id = _id
     end

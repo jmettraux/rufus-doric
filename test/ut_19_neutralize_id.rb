@@ -32,7 +32,7 @@ class UtNeutralizeTest < Test::Unit::TestCase
 
   protected
 
-  def n (s)
+  def n(s)
 
     Rufus::Doric.neutralize_id(s)
   end
