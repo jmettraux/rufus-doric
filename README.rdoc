@@ -31,7 +31,7 @@ Then the database is determined by calling Rufus::Doric.db(name)
   p Rufus::Doric.db('mydb', :env => 'camelia')
     # => #<Rufus::Jig::Couch:0x00000102325120
     #      @http=#<Rufus::Jig::Http:0x00000102324908 @host="127.0.0.1",
-    #        @port=5984, @path="/toot_test", ...>...> 
+    #        @port=5984, @path="/toot_test", ...>...>
 
 In summary, you only have to create a couch_url.txt file that contains the http:://{host}:{port} of your couch server. The rest is taken care of.
 
@@ -186,7 +186,8 @@ will load the documents (and their attachements) into http://127.0.0.1:5984/dori
 
 == credits
 
-Claudio Petasecca Donati - for all his help.
+Claudio Petasecca Donati - for all his help
+Austin Ziegler @halostatue - for the mime-types gem
 
 
 == license

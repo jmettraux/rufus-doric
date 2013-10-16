@@ -1,74 +1,84 @@
 
-
-require 'lib/rufus/doric/version.rb'
-
 require 'rubygems'
+
 require 'rake'
-
-
-#
-# CLEAN
-
 require 'rake/clean'
-CLEAN.include('pkg', 'tmp', 'html', 'rdoc')
-task :default => [ :clean ]
+#require 'rake/rdoctask'
+require 'rdoc/task'
 
 
 #
-# GEM
+# clean
 
-require 'jeweler'
+CLEAN.include('pkg', 'rdoc')
 
-Jeweler::Tasks.new do |gem|
 
-  gem.version = Rufus::Doric::VERSION
-  gem.name = 'rufus-doric'
-  gem.summary = 'something at the intersection of Rails3, CouchDB and rufus-jig'
+#
+# test / spec
 
-  gem.description = %{
-something at the intersection of Rails3, CouchDB and rufus-jig
-  }
-  gem.email = 'jmettraux@gmail.com'
-  gem.homepage = 'http://github.com/jmettraux/rufus-doric/'
-  gem.authors = [ 'John Mettraux' ]
-  gem.rubyforge_project = 'rufus'
-
-  gem.test_file = 'test/test.rb'
-
-  gem.add_dependency 'activerecord', '~> 3.0.0'
-  gem.add_dependency 'rufus-jig', '>= 0.1.23'
-  gem.add_dependency 'mime-types', '>= 1.16'
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'jeweler'
-
-  # gemspec spec : http://www.rubygems.org/read/chapter/20
+#task :spec => :check_dependencies do
+task :test do
+  exec('ruby test/test.rb')
 end
-Jeweler::GemcutterTasks.new
+task :spec => :test
+
+task :default => :test
 
 
 #
-# DOC
+# gem
 
+GEMSPEC_FILE = Dir['*.gemspec'].first
+GEMSPEC = eval(File.read(GEMSPEC_FILE))
+GEMSPEC.validate
+
+
+desc %{
+  builds the gem and places it in pkg/
+}
+task :build do
+
+  sh "gem build #{GEMSPEC_FILE}"
+  sh "mkdir -p pkg"
+  sh "mv #{GEMSPEC.name}-#{GEMSPEC.version}.gem pkg/"
+end
+
+desc %{
+  builds the gem and pushes it to rubygems.org
+}
+task :push => :build do
+
+  sh "gem push pkg/#{GEMSPEC.name}-#{GEMSPEC.version}.gem"
+end
+
+
+#
+# rdoc
 #
 # make sure to have rdoc 2.5.x to run that
-#
-require 'rake/rdoctask'
+
 Rake::RDocTask.new do |rd|
-  rd.main = 'README.rdoc'
-  rd.rdoc_dir = 'rdoc/rufus-doric'
+
+  rd.main = 'README.txt'
+  rd.rdoc_dir = "rdoc/#{GEMSPEC.name}"
+
   rd.rdoc_files.include('README.rdoc', 'CHANGELOG.txt', 'lib/**/*.rb')
-  rd.title = "rufus-doric #{Rufus::Doric::VERSION}"
+
+  rd.title = "#{GEMSPEC.name} #{GEMSPEC.version}"
 end
 
 
 #
-# TO THE WEB
+# upload_rdoc
 
+desc %{
+  upload the rdoc to rubyforge
+}
 task :upload_rdoc => [ :clean, :rdoc ] do
 
   account = 'jmettraux@rubyforge.org'
   webdir = '/var/www/gforge-projects/rufus'
 
-  sh "rsync -azv -e ssh rdoc/rufus-doric #{account}:#{webdir}/"
+  sh "rsync -azv -e ssh rdoc/#{GEMSPEC.name} #{account}:#{webdir}/"
 end
 
